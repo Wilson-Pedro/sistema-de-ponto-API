@@ -5,15 +5,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "TB_FUNCIONARIO")
 public class Funcionario implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private TipoIdentificacao tipoIdentificacao;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "funcionario")
 	private List<Registro> registros = new ArrayList<>();
 	
 	public Funcionario() {

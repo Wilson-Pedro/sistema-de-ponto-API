@@ -5,12 +5,26 @@ import java.util.Objects;
 
 import com.wamk.sistemaponto.enums.TipoRegistro;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "TB_REGISTRO")
 public class Registro implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private TipoRegistro tipoRegistro;
 	
+	@ManyToOne
+	@JoinColumn(name = "funcionario_id")
 	private Funcionario funcionario;
 	
 	public Registro() {
