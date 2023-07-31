@@ -5,20 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.wamk.sistemaponto.enums.TipoIdentificacao;
+
 public class Funcionario implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String nome;
+	private TipoIdentificacao tipoIdentificacao;
 	
 	private List<Registro> registros = new ArrayList<>();
 	
 	public Funcionario() {
 	}
 
-	public Funcionario(Long id, String nome, List<Registro> registros) {
+	public Funcionario(Long id, String nome, TipoIdentificacao tipoIdentificacao, List<Registro> registros) {
 		this.id = id;
 		this.nome = nome;
+		this.tipoIdentificacao = tipoIdentificacao;
 		this.registros = registros;
 	}
 
@@ -36,6 +40,14 @@ public class Funcionario implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public TipoIdentificacao getTipoIdentificacao() {
+		return tipoIdentificacao;
+	}
+
+	public void setTipoIdentificacao(TipoIdentificacao tipoIdentificacao) {
+		this.tipoIdentificacao = tipoIdentificacao;
 	}
 
 	public List<Registro> getRegistros() {

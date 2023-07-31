@@ -3,18 +3,22 @@ package com.wamk.sistemaponto.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.wamk.sistemaponto.enums.TipoRegistro;
+
 public class Registro implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	private TipoRegistro tipoRegistro;
 	
 	private Funcionario funcionario;
 	
 	public Registro() {
 	}
 
-	public Registro(Long id, Funcionario funcionario) {
+	public Registro(Long id, TipoRegistro tipoRegistro, Funcionario funcionario) {
 		this.id = id;
+		this.tipoRegistro = tipoRegistro;
 		this.funcionario = funcionario;
 	}
 
@@ -24,6 +28,14 @@ public class Registro implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public TipoRegistro getTipoRegistro() {
+		return tipoRegistro;
+	}
+
+	public void setTipoRegistro(TipoRegistro tipoRegistro) {
+		this.tipoRegistro = tipoRegistro;
 	}
 
 	public Funcionario getFuncionario() {
