@@ -33,11 +33,10 @@ public class Funcionario implements Serializable{
 	public Funcionario() {
 	}
 
-	public Funcionario(Long id, String nome, TipoIdentificacao tipoIdentificacao, List<Registro> registros) {
+	public Funcionario(Long id, String nome, TipoIdentificacao tipoIdentificacao) {
 		this.id = id;
 		this.nome = nome;
 		this.tipoIdentificacao = tipoIdentificacao;
-		this.registros = registros;
 	}
 
 	public Long getId() {
