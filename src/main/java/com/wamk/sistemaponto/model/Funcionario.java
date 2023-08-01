@@ -24,7 +24,7 @@ public class Funcionario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private TipoIdentificacao tipoIdentificacao;
+	private Integer tipoIdentificacao;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "funcionario")
@@ -36,7 +36,7 @@ public class Funcionario implements Serializable{
 	public Funcionario(Long id, String nome, TipoIdentificacao tipoIdentificacao) {
 		this.id = id;
 		this.nome = nome;
-		this.tipoIdentificacao = tipoIdentificacao;
+		this.tipoIdentificacao = (tipoIdentificacao == null) ? null : tipoIdentificacao.getCod();
 	}
 
 	public Long getId() {
@@ -56,11 +56,11 @@ public class Funcionario implements Serializable{
 	}
 
 	public TipoIdentificacao getTipoIdentificacao() {
-		return tipoIdentificacao;
+		return TipoIdentificacao.toEnum(tipoIdentificacao);
 	}
 
 	public void setTipoIdentificacao(TipoIdentificacao tipoIdentificacao) {
-		this.tipoIdentificacao = tipoIdentificacao;
+		this.tipoIdentificacao = tipoIdentificacao.getCod();
 	}
 
 	public List<Registro> getRegistros() {

@@ -21,7 +21,7 @@ public class Registro implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private TipoRegistro tipoRegistro;
+	private Integer tipoRegistro;
 	private String dataHora;
 	
 	@ManyToOne
@@ -34,7 +34,7 @@ public class Registro implements Serializable{
 	public Registro(Long id, TipoRegistro tipoRegistro, String dataHora, Funcionario funcionario) {
 		super();
 		this.id = id;
-		this.tipoRegistro = tipoRegistro;
+		this.tipoRegistro = (tipoRegistro == null) ? null : tipoRegistro.getCod();
 		this.dataHora = dataHora;
 		this.funcionario = funcionario;
 	}
@@ -48,11 +48,11 @@ public class Registro implements Serializable{
 	}
 
 	public TipoRegistro getTipoRegistro() {
-		return tipoRegistro;
+		return TipoRegistro.toEnum(tipoRegistro);
 	}
 
 	public void setTipoRegistro(TipoRegistro tipoRegistro) {
-		this.tipoRegistro = tipoRegistro;
+		this.tipoRegistro = tipoRegistro.getCod();
 	}
 
 	public String getDataHora() {
