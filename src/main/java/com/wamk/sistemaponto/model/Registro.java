@@ -1,7 +1,6 @@
 package com.wamk.sistemaponto.model;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import com.wamk.sistemaponto.enums.TipoRegistro;
@@ -23,7 +22,7 @@ public class Registro implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private TipoRegistro tipoRegistro;
-	private OffsetDateTime dataHora;
+	private String dataHora;
 	
 	@ManyToOne
 	@JoinColumn(name = "funcionario_id")
@@ -32,7 +31,7 @@ public class Registro implements Serializable{
 	public Registro() {
 	}
 
-	public Registro(Long id, TipoRegistro tipoRegistro, OffsetDateTime dataHora, Funcionario funcionario) {
+	public Registro(Long id, TipoRegistro tipoRegistro, String dataHora, Funcionario funcionario) {
 		super();
 		this.id = id;
 		this.tipoRegistro = tipoRegistro;
@@ -56,12 +55,12 @@ public class Registro implements Serializable{
 		this.tipoRegistro = tipoRegistro;
 	}
 
-	public OffsetDateTime getDataHora() {
+	public String getDataHora() {
 		return dataHora;
 	}
 
-	public void setDataHora(OffsetDateTime dataHora) {
-		this.dataHora = dataHora;
+	public void setDataHora(String string) {
+		this.dataHora = string;
 	}
 
 	public Funcionario getFuncionario() {

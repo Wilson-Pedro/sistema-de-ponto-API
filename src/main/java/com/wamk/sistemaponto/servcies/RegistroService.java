@@ -1,6 +1,9 @@
 package com.wamk.sistemaponto.servcies;
 
+import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,8 @@ import com.wamk.sistemaponto.model.Registro;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 import com.wamk.sistemaponto.repositories.RegistroRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class RegistroService {
 
@@ -20,18 +25,25 @@ public class RegistroService {
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
 	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy'T'HH:mm:ss.SSSXXXX");
+	
+	public List<Registro> findAll() {
+		return registroRepository.findAll();
+	}
+	
+	@Transactional
 	public void save(Registro registro) {
 		registroRepository.save(registro);
 	}
 
-	public Registro registroEntrada(Long id) {
+	public Registro registrarEntrada(Long id) {
 		Registro registro = criarNovoRegistro(id);
 		registro.setTipoRegistro(TipoRegistro.ENTRADA);
 		save(registro);
 		return registro;
 	}
 	
-	public Registro registroSaida(Long id) {
+	public Registro registrarSaida(Long id) {
 		Registro registro = criarNovoRegistro(id);
 		registro.setTipoRegistro(TipoRegistro.SAIDA);
 		save(registro);
@@ -42,7 +54,7 @@ public class RegistroService {
 		Funcionario func = funcionarioRepository.findById(id).get();
 		Registro registro = new Registro();
 		registro.setFuncionario(func);
-		registro.setDataHora(OffsetDateTime.now());
+		registro.setDataHora(OffsetDateTime.now().format(formatter));
 		registro.setTipoRegistro(TipoRegistro.INDEFINIDO);
 		return registro;
 	}
