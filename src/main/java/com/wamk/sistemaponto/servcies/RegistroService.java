@@ -35,6 +35,11 @@ public class RegistroService {
 	public void save(Registro registro) {
 		registroRepository.save(registro);
 	}
+	
+	public List<Registro> findAllById(Long funciorarioId){
+		List<Registro> registros = registroRepository.searchById(funciorarioId);
+		return registros;
+	}
 
 	public Registro registrarEntrada(Long id) {
 		Registro registro = criarNovoRegistro(id);

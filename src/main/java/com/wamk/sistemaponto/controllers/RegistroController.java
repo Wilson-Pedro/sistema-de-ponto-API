@@ -27,6 +27,12 @@ public class RegistroController {
 		return ResponseEntity.ok(list);
 	}
 	
+	@GetMapping("/{funciorarioId}")
+	public ResponseEntity<List<Registro>> findAllById(@PathVariable Long funciorarioId){
+		List<Registro> list = registroService.findAllById(funciorarioId);
+		return ResponseEntity.ok(list);
+	}
+	
 	@PostMapping("/{id}/entrada")
 	public ResponseEntity<Registro> registrarEntrada(@PathVariable Long id){
 		Registro registro = registroService.registrarEntrada(id);
