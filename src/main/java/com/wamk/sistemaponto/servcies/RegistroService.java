@@ -51,6 +51,11 @@ public class RegistroService {
 	public Registro registrarSaida(Long id) {
 		Registro registro = criarNovoRegistro(id);
 		registro.setTipoRegistro(TipoRegistro.SAIDA);
+		Funcionario funcionario = funcionarioRepository.findById(id).get();
+		int validarSaida = funcionario.validarSaida();
+		if(validarSaida == 0) {
+			return null;
+		}
 		save(registro);
 		return registro;
 	}

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
+import com.wamk.sistemaponto.enums.TipoRegistro;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -69,6 +70,16 @@ public class Funcionario implements Serializable{
 
 	public void setRegistros(List<Registro> registros) {
 		this.registros = registros;
+	}
+	
+	public int validarSaida() {
+		int sum = 0;
+		for(Registro x : registros) {
+			if(x.getTipoRegistro().equals(TipoRegistro.ENTRADA)) {
+				sum += 1;
+			}
+		}
+		return sum;
 	}
 
 	@Override

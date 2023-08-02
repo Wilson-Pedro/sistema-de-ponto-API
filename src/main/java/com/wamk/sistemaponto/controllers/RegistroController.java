@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.model.Registro;
+import com.wamk.sistemaponto.servcies.FuncionarioService;
 import com.wamk.sistemaponto.servcies.RegistroService;
 
 @RestController
@@ -20,6 +22,9 @@ public class RegistroController {
 
 	@Autowired
 	private RegistroService registroService;
+	
+	@Autowired
+	private FuncionarioService funcionarioService;
 	
 	@GetMapping
 	public ResponseEntity<List<Registro>> getAll(){
@@ -40,8 +45,15 @@ public class RegistroController {
 	}
 	
 	@PostMapping("/{id}/saida")
-	public ResponseEntity<Registro> registrarSaida(@PathVariable Long id){
+	public ResponseEntity<Object> registrarSaida(@PathVariable Long id){
 		Registro registro = registroService.registrarSaida(id);
+		Funcionario funcionario = funcionarioService.findById(id);
+		int validarSaida = funcionario.validarSaida();
+		if (validarSaida == 0) {
+			return ResponseEntity.badRequest().body("É preciso registrar uma ENTRADA "
+					+ "antes de registrar uma SAÍDA");
+		}
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(registro);
 	}
 }
