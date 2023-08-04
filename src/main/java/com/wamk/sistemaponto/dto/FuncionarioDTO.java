@@ -5,23 +5,29 @@ import java.io.Serializable;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.model.Funcionario;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class FuncionarioDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@NotBlank(message = "nome é obrigatório!")
 	private String nome;
-	private Integer tipoIdentificacao;
+	
+	@NotNull(message = "tipoIdentificacao não pode ser nulo!")
+	private TipoIdentificacao tipoIdentificacao;
 	
 	public FuncionarioDTO() {
 	}
 
 	public FuncionarioDTO(String nome, TipoIdentificacao tipoIdentificacao) {
 		this.nome = nome;
-		this.tipoIdentificacao = (tipoIdentificacao == null) ? null : tipoIdentificacao.getCod();
+		this.tipoIdentificacao = (tipoIdentificacao == null) ? null : tipoIdentificacao;
 	}
 	
 	public FuncionarioDTO(Funcionario funcionario) {
 		nome = funcionario.getNome();
-		tipoIdentificacao = funcionario.getTipoIdentificacao().getCod();
+		tipoIdentificacao = funcionario.getTipoIdentificacao();
 	}
 
 
@@ -34,10 +40,10 @@ public class FuncionarioDTO implements Serializable{
 	}
 
 	public TipoIdentificacao getTipoIdentificacao() {
-		return TipoIdentificacao.toEnum(tipoIdentificacao);
+		return tipoIdentificacao;
 	}
 
 	public void setTipoIdentificacao(TipoIdentificacao tipoIdentificacao) {
-		this.tipoIdentificacao = tipoIdentificacao.getCod();
+		this.tipoIdentificacao = tipoIdentificacao;
 	}
 }

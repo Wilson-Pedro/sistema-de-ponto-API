@@ -25,7 +25,7 @@ public class SistemaPontoApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		
 		Funcionario func1 = new Funcionario(null, "Wilson Pedro", TipoIdentificacao.CARTAO);
-		Funcionario func2 = new Funcionario(null, "Maria Silva", TipoIdentificacao.BIOMETRIA);
+		Funcionario func2 = new Funcionario(null, "Maria Silva", TipoIdentificacao.RELOGIO);
 		Funcionario func3 = new Funcionario(null, "Carlos Almeida", TipoIdentificacao.SENHA);
 		
 		funcionarioRepository.saveAll(Arrays.asList(func1, func2, func3));

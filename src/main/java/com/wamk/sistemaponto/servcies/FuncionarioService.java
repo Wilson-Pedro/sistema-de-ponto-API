@@ -1,6 +1,7 @@
 package com.wamk.sistemaponto.servcies;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class FuncionarioService {
 		return funcionarioRepository.findAll();
 	}
 
-	public Funcionario findById(Long id) {
-		return funcionarioRepository.findById(id).get();
+	public Optional<Funcionario> findById(Long id) {
+		return funcionarioRepository.findById(id);
 	}
 
 	public Funcionario novoFuncionario(FuncionarioDTO funcionarioDTO) {
@@ -40,7 +41,7 @@ public class FuncionarioService {
 	}
 
 	public Funcionario atulizarFuncionario(Long id, FuncionarioDTO funcionarioDTO) {
-		Funcionario funcionario = findById(id);
+		Funcionario funcionario = findById(id).get();
 		BeanUtils.copyProperties(funcionarioDTO, funcionario);
 		funcionario.setId(id);
 		save(funcionario);

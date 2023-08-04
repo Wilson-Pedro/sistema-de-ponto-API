@@ -18,6 +18,8 @@ import com.wamk.sistemaponto.dto.FuncionarioDTO;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
@@ -33,25 +35,33 @@ public class FuncionarioController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Funcionario> findById(@PathVariable Long id){
-		Funcionario funcionarioOpt = funcionarioService.findById(id);
+		Funcionario funcionarioOpt = funcionarioService.findById(id).get();
 		return ResponseEntity.ok(funcionarioOpt);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO){
+	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody @Valid FuncionarioDTO funcionarioDTO){
 		var funcionario = funcionarioService.novoFuncionario(funcionarioDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionario);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Funcionario> atualizarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO, 
+	public ResponseEntity<Funcionario> atualizarFuncionario(@RequestBody @Valid FuncionarioDTO funcionarioDTO, 
 			@PathVariable Long id){
+		var funcionarioOpt = funcionarioService.findById(id);
+		if(funcionarioOpt.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
 		funcionarioService.atulizarFuncionario(id, funcionarioDTO);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Funcionario> deletarFuncionario(@PathVariable Long id){
+		var funcionarioOpt = funcionarioService.findById(id);
+		if(funcionarioOpt.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
 		funcionarioService.deletarFuncionarioPorId(id);
 		return ResponseEntity.ok().build();
 	}

@@ -47,7 +47,7 @@ public class RegistroController {
 	@PostMapping("/{id}/saida")
 	public ResponseEntity<Object> registrarSaida(@PathVariable Long id){
 		Registro registro = registroService.registrarSaida(id);
-		Funcionario funcionario = funcionarioService.findById(id);
+		Funcionario funcionario = funcionarioService.findById(id).get();
 		int validarSaida = funcionario.validarSaida();
 		if (validarSaida == 0) {
 			return ResponseEntity.badRequest().body("É preciso registrar uma ENTRADA "
