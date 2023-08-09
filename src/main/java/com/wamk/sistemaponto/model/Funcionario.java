@@ -71,7 +71,7 @@ public class Funcionario implements Serializable{
 	public void setRegistros(List<Registro> registros) {
 		this.registros = registros;
 	}
-	
+
 	public int validarSaida() {
 		int sum = 0;
 		for(Registro x : registros) {

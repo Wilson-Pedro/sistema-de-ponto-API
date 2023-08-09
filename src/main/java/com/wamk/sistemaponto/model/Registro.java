@@ -9,12 +9,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TB_REGISTRO")
+@Inheritance(strategy = InheritanceType.JOINED)
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public class Registro implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -32,7 +36,6 @@ public class Registro implements Serializable{
 	}
 
 	public Registro(Long id, TipoRegistro tipoRegistro, String dataHora, Funcionario funcionario) {
-		super();
 		this.id = id;
 		this.tipoRegistro = (tipoRegistro == null) ? null : tipoRegistro.getCod();
 		this.dataHora = dataHora;
