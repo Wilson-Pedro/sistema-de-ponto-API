@@ -9,11 +9,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +32,9 @@ public class Funcionario implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "funcionario")
 	private List<Registro> registros = new ArrayList<>();
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "funcionario")
+	private FolhaPagamento folhaPagamento;
 	
 	public Funcionario() {
 	}

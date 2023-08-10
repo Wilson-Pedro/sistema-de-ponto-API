@@ -44,7 +44,7 @@ public class RegistroService {
 	}
 
 	public Registro registrarEntrada(Long id) {
-		Registro registro = criarRegistroEntrada(id);
+		RegistroEntrada registro = criarRegistroEntrada(id);
 		registro.setTipoRegistro(TipoRegistro.ENTRADA);
 		save(registro);
 		return registro;
@@ -64,7 +64,7 @@ public class RegistroService {
 		return registro;
 	}
 
-	public Registro criarRegistroEntrada(Long id) {
+	public RegistroEntrada criarRegistroEntrada(Long id) {
 		Funcionario func = funcionarioRepository.findById(id).get();
 		RegistroEntrada registro = new RegistroEntrada();
 		registro.setFuncionario(func);

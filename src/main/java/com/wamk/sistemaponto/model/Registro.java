@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 @Table(name = "TB_REGISTRO")
 @Inheritance(strategy = InheritanceType.JOINED)
 //@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-public class Registro implements Serializable{
+public abstract class Registro implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
