@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wamk.sistemaponto.dto.FuncionarioDTO;
 import com.wamk.sistemaponto.model.Funcionario;
+import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 
 import jakarta.validation.Valid;
@@ -26,6 +27,9 @@ public class FuncionarioController {
 	
 	@Autowired
 	private FuncionarioService funcionarioService;
+	
+	@Autowired
+	private FolhaPagamentoService folhaPagamentoService;
 
 	@GetMapping
 	public ResponseEntity<List<Funcionario>> getAll(){
@@ -42,6 +46,7 @@ public class FuncionarioController {
 	@PostMapping
 	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody @Valid FuncionarioDTO funcionarioDTO){
 		var funcionario = funcionarioService.novoFuncionario(funcionarioDTO);
+		folhaPagamentoService.novaFolhaPagamento(funcionario);
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionario);
 	}
 	

@@ -13,19 +13,21 @@ import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.model.Registro;
 import com.wamk.sistemaponto.model.RegistroEntrada;
 import com.wamk.sistemaponto.model.RegistroSaida;
-import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 import com.wamk.sistemaponto.repositories.RegistroRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class RegistroService {
+	
+	@Autowired
+	private FolhaPagamentoService folhaPagamentoService;
 
 	@Autowired
 	private RegistroRepository registroRepository;
 	
 	@Autowired
-	private FuncionarioRepository funcionarioRepository;
+	private FuncionarioService funcionarioService;
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
@@ -53,7 +55,7 @@ public class RegistroService {
 	public RegistroSaida registrarSaida(Long id) {
 		RegistroSaida registro = criarRegistroSaida(id);
 		registro.setTipoRegistro(TipoRegistro.SAIDA);
-		Funcionario funcionario = funcionarioRepository.findById(id).get();
+		Funcionario funcionario = funcionarioService.findById(id).get();
 		int validarSaida = funcionario.validarSaida();
 		if(validarSaida == 0) {
 			return null;
@@ -61,11 +63,12 @@ public class RegistroService {
 		String intervalo = acharIntervalo(registro.getDataHora(), funcionario);
 		registro.setIntervalo(intervalo);
 		save(registro);
+		folhaPagamentoService.salvarSalario(intervalo, id);
 		return registro;
 	}
 
 	public RegistroEntrada criarRegistroEntrada(Long id) {
-		Funcionario func = funcionarioRepository.findById(id).get();
+		Funcionario func = funcionarioService.findById(id).get();
 		RegistroEntrada registro = new RegistroEntrada();
 		registro.setFuncionario(func);
 		registro.setDataHora(OffsetDateTime.now().format(formatter));
@@ -74,7 +77,7 @@ public class RegistroService {
 	}
 	
 	public RegistroSaida criarRegistroSaida(Long id) {
-		Funcionario func = funcionarioRepository.findById(id).get();
+		Funcionario func = funcionarioService.findById(id).get();
 		RegistroSaida registro = new RegistroSaida();
 		registro.setFuncionario(func);
 		registro.setDataHora(OffsetDateTime.now().format(formatter));
