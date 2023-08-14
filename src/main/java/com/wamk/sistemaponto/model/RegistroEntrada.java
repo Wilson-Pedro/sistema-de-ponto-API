@@ -1,6 +1,7 @@
 package com.wamk.sistemaponto.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 
 import jakarta.persistence.Entity;
@@ -16,9 +17,9 @@ public class RegistroEntrada extends Registro{
 		super();
 	}
 
-	public RegistroEntrada(Long id, TipoRegistro tipoRegistro, String dataHora, Funcionario funcionario) {
-		super(id, tipoRegistro, dataHora, funcionario);
+	public RegistroEntrada(Long id, TipoRegistro tipoRegistro, String dataHora, FrequenciaStatus frequencia,
+			Funcionario funcionario) {
+		super(id, tipoRegistro, dataHora, frequencia, funcionario);
 	}
-	
 	
 }

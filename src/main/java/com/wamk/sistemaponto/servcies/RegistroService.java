@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 import com.wamk.sistemaponto.horario.IntervaloHorarioCalculo;
 import com.wamk.sistemaponto.model.Funcionario;
@@ -48,10 +49,12 @@ public class RegistroService {
 	public Registro registrarEntrada(Long id) {
 		RegistroEntrada registro = criarRegistroEntrada(id);
 		registro.setTipoRegistro(TipoRegistro.ENTRADA);
+		Integer status = definirFrequenciaStatus(registro.getDataHora(), "13:00:00", TipoRegistro.ENTRADA);
+		registro.setFrequencia(FrequenciaStatus.toEnum(status));
 		save(registro);
 		return registro;
 	}
-	
+
 	public RegistroSaida registrarSaida(Long id) {
 		RegistroSaida registro = criarRegistroSaida(id);
 		registro.setTipoRegistro(TipoRegistro.SAIDA);
@@ -62,9 +65,25 @@ public class RegistroService {
 		}
 		String intervalo = acharIntervalo(registro.getDataHora(), funcionario);
 		registro.setIntervalo(intervalo);
+		Integer status = definirFrequenciaStatus(registro.getDataHora(), "17:00:00", TipoRegistro.SAIDA);
+		registro.setFrequencia(FrequenciaStatus.toEnum(status));
 		save(registro);
 		folhaPagamentoService.salvarSalario(intervalo, id);
 		return registro;
+	}
+	
+	private Integer definirFrequenciaStatus(String dataHora, String horarioPonto, TipoRegistro registro) {
+		String[] horario = dataHora.split("T");
+		Integer status = 5;
+		int comparacao = horario[1].compareTo(horarioPonto);
+		if(comparacao <= 0) {
+			status = FrequenciaStatus.PONTO.getCod();
+		} else if (comparacao > 0 && TipoRegistro.ENTRADA.equals(registro)) {
+			status = FrequenciaStatus.ATRASADO.getCod();
+		} else if (comparacao > 0 && TipoRegistro.SAIDA.equals(registro)) {
+			status = FrequenciaStatus.HORA_EXTRA.getCod();
+		}
+		return status;
 	}
 
 	public RegistroEntrada criarRegistroEntrada(Long id) {

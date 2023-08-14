@@ -3,6 +3,7 @@ package com.wamk.sistemaponto.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 
 import jakarta.persistence.Entity;
@@ -27,6 +28,7 @@ public abstract class Registro implements Serializable{
 	private Long id;
 	private Integer tipoRegistro;
 	private String dataHora;
+	private Integer frequencia;
 	
 	@ManyToOne
 	@JoinColumn(name = "funcionario_id")
@@ -35,10 +37,11 @@ public abstract class Registro implements Serializable{
 	public Registro() {
 	}
 
-	public Registro(Long id, TipoRegistro tipoRegistro, String dataHora, Funcionario funcionario) {
+	public Registro(Long id, TipoRegistro tipoRegistro, String dataHora, FrequenciaStatus frequencia, Funcionario funcionario) {
 		this.id = id;
 		this.tipoRegistro = (tipoRegistro == null) ? null : tipoRegistro.getCod();
 		this.dataHora = dataHora;
+		this.frequencia = (frequencia == null) ? null : frequencia.getCod();
 		this.funcionario = funcionario;
 	}
 
@@ -64,6 +67,14 @@ public abstract class Registro implements Serializable{
 
 	public void setDataHora(String string) {
 		this.dataHora = string;
+	}
+
+	public FrequenciaStatus getFrequencia() {
+		return FrequenciaStatus.toEnum(frequencia);
+	}
+
+	public void setFrequencia(FrequenciaStatus frequencia) {
+		this.frequencia = frequencia.getCod();
 	}
 
 	public Funcionario getFuncionario() {
