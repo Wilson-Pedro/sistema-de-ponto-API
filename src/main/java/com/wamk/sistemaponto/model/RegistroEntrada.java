@@ -22,4 +22,7 @@ public class RegistroEntrada extends Registro{
 		super(id, tipoRegistro, dataHora, frequencia, funcionario);
 	}
 	
+	public RegistroEntrada(Registro registro) {
+		super(registro.getId(), registro.getTipoRegistro(), registro.getDataHora(), registro.getFrequencia(), registro.getFuncionario());
+	}
 }

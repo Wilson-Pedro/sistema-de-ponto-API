@@ -23,6 +23,10 @@ public class RegistroSaida extends Registro{
 			Funcionario funcionario) {
 		super(id, tipoRegistro, dataHora, frequencia, funcionario);
 	}
+	
+	public RegistroSaida(Registro registro) {
+		super(registro.getId(), registro.getTipoRegistro(), registro.getDataHora(), registro.getFrequencia(), registro.getFuncionario());
+	}
 
 	public String getIntervalo() {
 		return intervalo;

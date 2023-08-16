@@ -30,15 +30,16 @@ public class RegistroService {
 	@Autowired
 	private FuncionarioService funcionarioService;
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
-	public List<Registro> findAll() {
-		return registroRepository.findAll();
-	}
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
 	@Transactional
 	public void save(Registro registro) {
 		registroRepository.save(registro);
+	}
+	
+	public List<Registro> findAll() {
+		return registroRepository.findAll();
 	}
 	
 	public List<Registro> findAllById(Long funciorarioId){
@@ -47,29 +48,30 @@ public class RegistroService {
 	}
 
 	public Registro registrarEntrada(Long id) {
-		RegistroEntrada registro = criarRegistroEntrada(id);
+		Registro registro = criarRegistro(id);
 		registro.setTipoRegistro(TipoRegistro.ENTRADA);
-		Integer status = definirFrequenciaStatus(registro.getDataHora(), "13:00:00", TipoRegistro.ENTRADA);
+		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
+				"13:00:00", TipoRegistro.ENTRADA);
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
-		save(registro);
-		return registro;
+		RegistroEntrada registroEntrada = new RegistroEntrada(registro);
+		save(registroEntrada);
+		return registroEntrada;
 	}
 
 	public RegistroSaida registrarSaida(Long id) {
-		RegistroSaida registro = criarRegistroSaida(id);
-		registro.setTipoRegistro(TipoRegistro.SAIDA);
-		Funcionario funcionario = funcionarioService.findById(id).get();
-		int validarSaida = funcionario.validarSaida();
-		if(validarSaida == 0) {
-			return null;
-		}
-		String intervalo = acharIntervalo(registro.getDataHora(), funcionario);
-		registro.setIntervalo(intervalo);
-		Integer status = definirFrequenciaStatus(registro.getDataHora(), "17:00:00", TipoRegistro.SAIDA);
+		var registro = criarRegistro(id);
+		var funcionario = funcionarioService.findById(id).get();
+		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
+				"17:00:00", TipoRegistro.SAIDA);
+		
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
-		save(registro);
+		registro.setTipoRegistro(TipoRegistro.SAIDA);
+		String intervalo = acharIntervalo(registro.getDataHora(), funcionario);
+		RegistroSaida registroSaida = new RegistroSaida(registro);
+		registroSaida.setIntervalo(intervalo);
+		save(registroSaida);
 		folhaPagamentoService.salvarSalario(intervalo, id);
-		return registro;
+		return registroSaida;
 	}
 	
 	private Integer definirFrequenciaStatus(String dataHora, String horarioPonto, TipoRegistro registro) {
@@ -86,18 +88,9 @@ public class RegistroService {
 		return status;
 	}
 
-	public RegistroEntrada criarRegistroEntrada(Long id) {
+	public Registro criarRegistro(Long id) {
 		Funcionario func = funcionarioService.findById(id).get();
-		RegistroEntrada registro = new RegistroEntrada();
-		registro.setFuncionario(func);
-		registro.setDataHora(OffsetDateTime.now().format(formatter));
-		registro.setTipoRegistro(TipoRegistro.INDEFINIDO);
-		return registro;
-	}
-	
-	public RegistroSaida criarRegistroSaida(Long id) {
-		Funcionario func = funcionarioService.findById(id).get();
-		RegistroSaida registro = new RegistroSaida();
+		Registro registro = new RegistroEntrada();
 		registro.setFuncionario(func);
 		registro.setDataHora(OffsetDateTime.now().format(formatter));
 		registro.setTipoRegistro(TipoRegistro.INDEFINIDO);
