@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,5 +32,11 @@ public class FolhaPagamentoController {
 	public ResponseEntity<FolhaPagamento> findById(@PathVariable Long id){
 		Optional<FolhaPagamento> folhaPagamentoOpt = folhaPagamentoService.findById(id);
 		return ResponseEntity.ok(folhaPagamentoOpt.get());
+	}
+	
+	@GetMapping("/pages")
+	public ResponseEntity<Page<FolhaPagamento>> paginar(Pageable pageable){
+		Page<FolhaPagamento> pages = folhaPagamentoService.findAll(pageable);
+		return ResponseEntity.ok(pages);
 	}
 }

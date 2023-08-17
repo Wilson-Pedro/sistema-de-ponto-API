@@ -3,6 +3,8 @@ package com.wamk.sistemaponto.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,12 @@ public class RegistroController {
 	public ResponseEntity<List<Registro>> findAllById(@PathVariable Long funciorarioId){
 		List<Registro> list = registroService.findAllById(funciorarioId);
 		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/pages")
+	public ResponseEntity<Page<Registro>> paginar(Pageable pageable){
+		Page<Registro> pages = registroService.findAll(pageable);
+		return ResponseEntity.ok(pages);
 	}
 	
 	@PostMapping("/{id}/entrada")
