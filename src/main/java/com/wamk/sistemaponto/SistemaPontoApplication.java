@@ -30,9 +30,9 @@ public class SistemaPontoApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Funcionario func1 = new Funcionario(null, "Wilson Pedro", TipoIdentificacao.CARTAO);
-		Funcionario func2 = new Funcionario(null, "Maria Silva", TipoIdentificacao.RELOGIO);
-		Funcionario func3 = new Funcionario(null, "Carlos Almeida", TipoIdentificacao.SENHA);
+		Funcionario func1 = new Funcionario(null, "Wilson Pedro", "398.276.090-92", TipoIdentificacao.CARTAO);
+		Funcionario func2 = new Funcionario(null, "Maria Silva", "043.865.530-37", TipoIdentificacao.RELOGIO);
+		Funcionario func3 = new Funcionario(null, "Carlos Almeida", "963.309.530-15", TipoIdentificacao.SENHA);
 		
 		funcionarioRepository.saveAll(Arrays.asList(func1, func2, func3));
 		

@@ -27,6 +27,7 @@ public class Funcionario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private String cpf;
 	private Integer tipoIdentificacao;
 	
 	@JsonIgnore
@@ -39,9 +40,10 @@ public class Funcionario implements Serializable{
 	public Funcionario() {
 	}
 
-	public Funcionario(Long id, String nome, TipoIdentificacao tipoIdentificacao) {
+	public Funcionario(Long id, String nome, String cpf, TipoIdentificacao tipoIdentificacao) {
 		this.id = id;
 		this.nome = nome;
+		this.cpf = cpf;
 		this.tipoIdentificacao = (tipoIdentificacao == null) ? null : tipoIdentificacao.getCod();
 	}
 
@@ -59,6 +61,14 @@ public class Funcionario implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public TipoIdentificacao getTipoIdentificacao() {
