@@ -9,7 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.wamk.sistemaponto.dto.FuncionarioDTO;
+import com.wamk.sistemaponto.dtos.FuncionarioDTO;
+import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 
@@ -25,9 +26,10 @@ public class FuncionarioService {
 	public void save(Funcionario funcionario) {
 		funcionarioRepository.save(funcionario);
 	}
-
-	public List<Funcionario> findAll() {
-		return funcionarioRepository.findAll();
+	
+	public List<FuncionarioDTO> findAll() {
+		List<Funcionario> list = funcionarioRepository.findAll();
+		return list.stream().map(x -> new FuncionarioDTO(x)).toList();
 	}
 	
 	public Page<Funcionario> findAll(Pageable pageable) {
@@ -38,7 +40,7 @@ public class FuncionarioService {
 		return funcionarioRepository.findById(id);
 	}
 
-	public Funcionario novoFuncionario(FuncionarioDTO funcionarioDTO) {
+	public Funcionario novoFuncionario(FuncionarioInputDTO funcionarioDTO) {
 		Funcionario funcionario = new Funcionario();
 		BeanUtils.copyProperties(funcionarioDTO, funcionario);
 		funcionario.setId(null);
@@ -46,12 +48,14 @@ public class FuncionarioService {
 		return funcionario;
 	}
 
-	public Funcionario atulizarFuncionario(Long id, FuncionarioDTO funcionarioDTO) {
+	public FuncionarioDTO atulizarFuncionario(Long id, FuncionarioInputDTO funcionarioDTO) {
 		Funcionario funcionario = findById(id).get();
 		BeanUtils.copyProperties(funcionarioDTO, funcionario);
 		funcionario.setId(id);
 		save(funcionario);
-		return funcionario;
+		var obj = new FuncionarioDTO();
+		BeanUtils.copyProperties(funcionario, obj);
+		return obj;
 	}
 
 	public void deletarFuncionarioPorId(Long id) {

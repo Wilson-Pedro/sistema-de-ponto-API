@@ -1,35 +1,35 @@
-package com.wamk.sistemaponto.dto;
+package com.wamk.sistemaponto.dtos;
 
 import java.io.Serializable;
 
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.model.Funcionario;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 public class FuncionarioDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@NotBlank(message = "nome é obrigatório!")
+	private Long id;
 	private String nome;
-	
-	@NotNull(message = "tipoIdentificacao não pode ser nulo!")
-	private TipoIdentificacao tipoIdentificacao;
+	private String cpf;
+	private Integer tipoIdentificacao;
 	
 	public FuncionarioDTO() {
 	}
-
-	public FuncionarioDTO(String nome, TipoIdentificacao tipoIdentificacao) {
-		this.nome = nome;
-		this.tipoIdentificacao = (tipoIdentificacao == null) ? null : tipoIdentificacao;
-	}
 	
 	public FuncionarioDTO(Funcionario funcionario) {
+		id = funcionario.getId();
 		nome = funcionario.getNome();
-		tipoIdentificacao = funcionario.getTipoIdentificacao();
+		cpf = funcionario.getCpf();
+		tipoIdentificacao = funcionario.getTipoIdentificacao().getCod();
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
@@ -39,11 +39,19 @@ public class FuncionarioDTO implements Serializable{
 		this.nome = nome;
 	}
 
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
 	public TipoIdentificacao getTipoIdentificacao() {
-		return tipoIdentificacao;
+		return TipoIdentificacao.toEnum(tipoIdentificacao);
 	}
 
 	public void setTipoIdentificacao(TipoIdentificacao tipoIdentificacao) {
-		this.tipoIdentificacao = tipoIdentificacao;
+		this.tipoIdentificacao = tipoIdentificacao.getCod();
 	}
 }

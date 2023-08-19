@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wamk.sistemaponto.dto.FuncionarioDTO;
+import com.wamk.sistemaponto.dtos.FuncionarioDTO;
+import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
@@ -34,8 +35,8 @@ public class FuncionarioController {
 	private FolhaPagamentoService folhaPagamentoService;
 
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> getAll(){
-		List<Funcionario> list = funcionarioService.findAll();
+	public ResponseEntity<List<FuncionarioDTO>> getAll(){
+		List<FuncionarioDTO> list = funcionarioService.findAll();
 		return ResponseEntity.ok(list);
 	}
 	
@@ -46,20 +47,21 @@ public class FuncionarioController {
 	}
 	
 	@GetMapping("/pages")
-	public ResponseEntity<Page<Funcionario>> paginar(Pageable pageable){
+	public ResponseEntity<Page<FuncionarioDTO>> paginar(Pageable pageable){
 		Page<Funcionario> pages = funcionarioService.findAll(pageable);
-		return ResponseEntity.ok(pages);
+		Page<FuncionarioDTO> pagesDTO = pages.map(FuncionarioDTO::new);
+		return ResponseEntity.ok(pagesDTO);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody @Valid FuncionarioDTO funcionarioDTO){
+	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody @Valid FuncionarioInputDTO funcionarioDTO){
 		var funcionario = funcionarioService.novoFuncionario(funcionarioDTO);
 		folhaPagamentoService.novaFolhaPagamento(funcionario);
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionario);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Funcionario> atualizarFuncionario(@RequestBody @Valid FuncionarioDTO funcionarioDTO, 
+	public ResponseEntity<FuncionarioDTO> atualizarFuncionario(@RequestBody @Valid FuncionarioInputDTO funcionarioDTO, 
 			@PathVariable Long id){
 		var funcionarioOpt = funcionarioService.findById(id);
 		if(funcionarioOpt.isEmpty()) {

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wamk.sistemaponto.dtos.min.FolhaPagamentoMinDTO;
 import com.wamk.sistemaponto.model.FolhaPagamento;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FolhaPagamentoRepository;
@@ -31,8 +32,9 @@ public class FolhaPagamentoService {
 		save(folhaPagemnto);
 	}
 
-	public List<FolhaPagamento> findAll() {
-		return folhaPagamentoRepository.findAll();
+	public List<FolhaPagamentoMinDTO> findAll() {
+		List<FolhaPagamento> list =  folhaPagamentoRepository.findAll();
+		return list.stream().map(x -> new FolhaPagamentoMinDTO(x)).toList();
 	}
 	
 	public Page<FolhaPagamento> findAll(Pageable pageable) {

@@ -3,6 +3,7 @@ package com.wamk.sistemaponto.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wamk.sistemaponto.dtos.FolhaPagamentoDTO;
+import com.wamk.sistemaponto.dtos.min.FolhaPagamentoMinDTO;
 import com.wamk.sistemaponto.model.FolhaPagamento;
 import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
 
@@ -23,15 +26,17 @@ public class FolhaPagamentoController {
 	private FolhaPagamentoService folhaPagamentoService;
 	
 	@GetMapping
-	public ResponseEntity<List<FolhaPagamento>> findAll(){
-		List<FolhaPagamento> list = folhaPagamentoService.findAll();
+	public ResponseEntity<List<FolhaPagamentoMinDTO>> findAll(){
+		List<FolhaPagamentoMinDTO> list = folhaPagamentoService.findAll();
 		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<FolhaPagamento> findById(@PathVariable Long id){
+	public ResponseEntity<FolhaPagamentoDTO> findById(@PathVariable Long id){
 		Optional<FolhaPagamento> folhaPagamentoOpt = folhaPagamentoService.findById(id);
-		return ResponseEntity.ok(folhaPagamentoOpt.get());
+		FolhaPagamentoDTO folhaPagamentoDTO = new FolhaPagamentoDTO();
+		BeanUtils.copyProperties(folhaPagamentoOpt.get(), folhaPagamentoDTO);
+		return ResponseEntity.ok(folhaPagamentoDTO);
 	}
 	
 	@GetMapping("/pages")
