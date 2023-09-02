@@ -42,7 +42,7 @@ public class FuncionarioController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Funcionario> findById(@PathVariable Long id){
-		Funcionario funcionarioOpt = funcionarioService.findById(id).get();
+		Funcionario funcionarioOpt = funcionarioService.findById(id);
 		return ResponseEntity.ok(funcionarioOpt);
 	}
 	
@@ -63,20 +63,12 @@ public class FuncionarioController {
 	@PutMapping("/{id}")
 	public ResponseEntity<FuncionarioDTO> atualizarFuncionario(@RequestBody @Valid FuncionarioInputDTO funcionarioDTO, 
 			@PathVariable Long id){
-		var funcionarioOpt = funcionarioService.findById(id);
-		if(funcionarioOpt.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
 		funcionarioService.atulizarFuncionario(id, funcionarioDTO);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Funcionario> deletarFuncionario(@PathVariable Long id){
-		var funcionarioOpt = funcionarioService.findById(id);
-		if(funcionarioOpt.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
 		funcionarioService.deletarFuncionarioPorId(id);
 		return ResponseEntity.ok().build();
 	}

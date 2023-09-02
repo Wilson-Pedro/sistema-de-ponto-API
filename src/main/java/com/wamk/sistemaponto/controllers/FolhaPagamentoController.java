@@ -1,7 +1,6 @@
 package com.wamk.sistemaponto.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,9 @@ public class FolhaPagamentoController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<FolhaPagamentoDTO> findById(@PathVariable Long id){
-		Optional<FolhaPagamento> folhaPagamentoOpt = folhaPagamentoService.findById(id);
+		FolhaPagamento folhaPagamentoOpt = folhaPagamentoService.findById(id);
 		FolhaPagamentoDTO folhaPagamentoDTO = new FolhaPagamentoDTO();
-		BeanUtils.copyProperties(folhaPagamentoOpt.get(), folhaPagamentoDTO);
+		BeanUtils.copyProperties(folhaPagamentoOpt, folhaPagamentoDTO);
 		return ResponseEntity.ok(folhaPagamentoDTO);
 	}
 	

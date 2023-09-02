@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.wamk.sistemaponto.dtos.min.RegistroMinDTO;
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 import com.wamk.sistemaponto.horario.IntervaloHorarioCalculo;
@@ -32,7 +33,6 @@ public class RegistroService {
 	@Autowired
 	private FuncionarioService funcionarioService;
 	
-	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
 	@Transactional
@@ -40,17 +40,13 @@ public class RegistroService {
 		registroRepository.save(registro);
 	}
 	
-	public List<Registro> findAll() {
-		return registroRepository.findAll();
+	public List<RegistroMinDTO> findAll() {
+		List<Registro> list = registroRepository.findAll();
+		return list.stream().map(x -> new RegistroMinDTO(x)).toList();
 	}
 	
 	public Page<Registro> findAll(Pageable pageable) {
 		return registroRepository.findAll(pageable);
-	}
-	
-	public List<Registro> findAllById(Long funciorarioId){
-		List<Registro> registros = registroRepository.searchById(funciorarioId);
-		return registros;
 	}
 
 	public Registro registrarEntrada(Long id) {
@@ -66,7 +62,7 @@ public class RegistroService {
 
 	public RegistroSaida registrarSaida(Long id) {
 		var registro = criarRegistro(id);
-		var funcionario = funcionarioService.findById(id).get();
+		var funcionario = funcionarioService.findById(id);
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
 				"17:00:00", TipoRegistro.SAIDA);
 		
@@ -95,7 +91,7 @@ public class RegistroService {
 	}
 
 	public Registro criarRegistro(Long id) {
-		Funcionario func = funcionarioService.findById(id).get();
+		Funcionario func = funcionarioService.findById(id);
 		Registro registro = new RegistroEntrada();
 		registro.setFuncionario(func);
 		registro.setDataHora(OffsetDateTime.now().format(formatter));

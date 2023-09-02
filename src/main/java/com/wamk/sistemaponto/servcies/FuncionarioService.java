@@ -1,7 +1,6 @@
 package com.wamk.sistemaponto.servcies;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.wamk.sistemaponto.dtos.FuncionarioDTO;
 import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
+import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 
@@ -36,8 +36,10 @@ public class FuncionarioService {
 		return funcionarioRepository.findAll(pageable);
 	}
 
-	public Optional<Funcionario> findById(Long id) {
-		return funcionarioRepository.findById(id);
+	public Funcionario findById(Long id) {
+		return funcionarioRepository.findById(id)
+				.orElseThrow(() -> 
+				new EntidadeNaoEncontradaException("Funcionario não encontrado."));
 	}
 
 	public Funcionario novoFuncionario(FuncionarioInputDTO funcionarioDTO) {
@@ -49,7 +51,7 @@ public class FuncionarioService {
 	}
 
 	public FuncionarioDTO atulizarFuncionario(Long id, FuncionarioInputDTO funcionarioDTO) {
-		Funcionario funcionario = findById(id).get();
+		Funcionario funcionario = findById(id);
 		BeanUtils.copyProperties(funcionarioDTO, funcionario);
 		funcionario.setId(id);
 		save(funcionario);

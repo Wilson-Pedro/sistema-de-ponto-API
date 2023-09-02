@@ -2,7 +2,6 @@ package com.wamk.sistemaponto.servcies;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wamk.sistemaponto.dtos.min.FolhaPagamentoMinDTO;
+import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
 import com.wamk.sistemaponto.model.FolhaPagamento;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FolhaPagamentoRepository;
@@ -41,12 +41,14 @@ public class FolhaPagamentoService {
 		return folhaPagamentoRepository.findAll(pageable);
 	}
 
-	public Optional<FolhaPagamento> findById(Long id) {
-		return folhaPagamentoRepository.findById(id);
+	public FolhaPagamento findById(Long id) {
+		return folhaPagamentoRepository.findById(id)
+				.orElseThrow(() -> 
+				new EntidadeNaoEncontradaException("Folha de Pagamento não encontrada."));
 	}
 
 	public void salvarSalario(String intervalo, Long id) {
-		var folhaPagamento = findById(id).get();
+		var folhaPagamento = findById(id);
 		BigDecimal salario = calcularSalario(intervalo, new BigDecimal(200.0));
 		Integer horasTrabalhadas = acharHorasTrabalhadas(intervalo);
 		folhaPagamento.setHorasTrabalhadas(horasTrabalhadas);

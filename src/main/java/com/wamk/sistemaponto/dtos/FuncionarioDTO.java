@@ -19,7 +19,7 @@ public class FuncionarioDTO implements Serializable{
 	public FuncionarioDTO(Funcionario funcionario) {
 		id = funcionario.getId();
 		nome = funcionario.getNome();
-		cpf = funcionario.getCpf();
+		cpf = funcionario.getCpf(); 
 		tipoIdentificacao = funcionario.getTipoIdentificacao().getCod();
 	}
 
