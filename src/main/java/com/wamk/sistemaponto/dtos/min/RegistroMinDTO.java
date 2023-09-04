@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 import com.wamk.sistemaponto.model.Registro;
+import com.wamk.sistemaponto.projections.RegistroMinProjection;
 
 public class RegistroMinDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,14 @@ public class RegistroMinDTO implements Serializable{
 		dataHora = registro.getDataHora();
 		frequencia = registro.getFrequencia().getCod();
 		nomeFuncionario = registro.getFuncionario().getNome();
+	}
+	
+	public RegistroMinDTO(RegistroMinProjection projection) {
+		id = projection.getId();
+		tipoRegistro = projection.getTipoRegsitro();
+		dataHora = projection.getDataHora();
+		frequencia = projection.getFrequencia();
+		nomeFuncionario = projection.getNome();
 	}
 
 	public Long getId() {

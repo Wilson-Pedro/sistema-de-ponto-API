@@ -15,6 +15,4 @@ public class ValidacaoService {
 					"É preciso registrar uma ENTRADA antes de registrar uma SAÍDA");
 		}
 	}
-
-	
 }

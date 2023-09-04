@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wamk.sistemaponto.dtos.min.RegistroMinDTO;
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
@@ -17,9 +18,10 @@ import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.model.Registro;
 import com.wamk.sistemaponto.model.RegistroEntrada;
 import com.wamk.sistemaponto.model.RegistroSaida;
+import com.wamk.sistemaponto.projections.RegistroMinProjection;
 import com.wamk.sistemaponto.repositories.RegistroRepository;
 
-import jakarta.transaction.Transactional;
+
 
 @Service
 public class RegistroService {
@@ -40,13 +42,21 @@ public class RegistroService {
 		registroRepository.save(registro);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<RegistroMinDTO> findAll() {
 		List<Registro> list = registroRepository.findAll();
 		return list.stream().map(x -> new RegistroMinDTO(x)).toList();
 	}
 	
+	@Transactional(readOnly = true)
 	public Page<Registro> findAll(Pageable pageable) {
 		return registroRepository.findAll(pageable);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<RegistroMinDTO> findAllById(Long id){
+		List<RegistroMinProjection> list = registroRepository.searchById(id);
+		return list.stream().map(x -> new RegistroMinDTO(x)).toList();
 	}
 
 	public Registro registrarEntrada(Long id) {

@@ -32,15 +32,18 @@ public class FolhaPagamentoService {
 		save(folhaPagemnto);
 	}
 
+	@Transactional(readOnly = true)
 	public List<FolhaPagamentoMinDTO> findAll() {
 		List<FolhaPagamento> list =  folhaPagamentoRepository.findAll();
 		return list.stream().map(x -> new FolhaPagamentoMinDTO(x)).toList();
 	}
 	
+	@Transactional(readOnly = true)
 	public Page<FolhaPagamento> findAll(Pageable pageable) {
 		return folhaPagamentoRepository.findAll(pageable);
 	}
 
+	@Transactional(readOnly = true)
 	public FolhaPagamento findById(Long id) {
 		return folhaPagamentoRepository.findById(id)
 				.orElseThrow(() -> 

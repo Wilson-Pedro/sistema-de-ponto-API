@@ -35,8 +35,14 @@ public class RegistroController {
 	private ValidacaoService validacaoService;
 	
 	@GetMapping
-	public ResponseEntity<List<RegistroMinDTO>> getAll(){
+	public ResponseEntity<List<RegistroMinDTO>> findAll(){
 		List<RegistroMinDTO> list = registroService.findAll();
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/{id}/funcionarios")
+	public ResponseEntity<List<RegistroMinDTO>> findAllById(@PathVariable Long id){
+		List<RegistroMinDTO> list = registroService.findAllById(id);
 		return ResponseEntity.ok(list);
 	}
 	

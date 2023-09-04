@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wamk.sistemaponto.dtos.FuncionarioDTO;
 import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
@@ -14,7 +15,6 @@ import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class FuncionarioService {
@@ -27,15 +27,18 @@ public class FuncionarioService {
 		funcionarioRepository.save(funcionario);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<FuncionarioDTO> findAll() {
 		List<Funcionario> list = funcionarioRepository.findAll();
 		return list.stream().map(x -> new FuncionarioDTO(x)).toList();
 	}
 	
+	@Transactional(readOnly = true)
 	public Page<Funcionario> findAll(Pageable pageable) {
 		return funcionarioRepository.findAll(pageable);
 	}
 
+	@Transactional(readOnly = true)
 	public Funcionario findById(Long id) {
 		return funcionarioRepository.findById(id)
 				.orElseThrow(() -> 
