@@ -1,5 +1,7 @@
 package com.wamk.sistemaponto.enums;
 
+import java.util.stream.Stream;
+
 public enum FrequenciaStatus {
 	
 	PONTO(1, "Ponto"),
@@ -37,5 +39,12 @@ public enum FrequenciaStatus {
 		}
 		
 		throw new IllegalArgumentException("Id inválido: " + cod);
+	}
+	
+	public static FrequenciaStatus toEnum(String descricao) {
+		return Stream.of(FrequenciaStatus.values())
+				.filter(frequencia -> frequencia.getDescricao().equals(descricao))
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
 	}
 }

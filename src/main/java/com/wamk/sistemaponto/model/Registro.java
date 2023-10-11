@@ -26,9 +26,12 @@ public abstract class Registro implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer tipoRegistro;
+	
+	private TipoRegistro tipoRegistro;
+	
 	private String dataHora;
-	private Integer frequencia;
+	
+	private FrequenciaStatus frequencia;
 	
 	@ManyToOne
 	@JoinColumn(name = "funcionario_id")
@@ -39,9 +42,9 @@ public abstract class Registro implements Serializable{
 
 	public Registro(Long id, TipoRegistro tipoRegistro, String dataHora, FrequenciaStatus frequencia, Funcionario funcionario) {
 		this.id = id;
-		this.tipoRegistro = (tipoRegistro == null) ? null : tipoRegistro.getCod();
+		this.tipoRegistro = tipoRegistro;
 		this.dataHora = dataHora;
-		this.frequencia = (frequencia == null) ? null : frequencia.getCod();
+		this.frequencia = frequencia;
 		this.funcionario = funcionario;
 	}
 
@@ -54,11 +57,11 @@ public abstract class Registro implements Serializable{
 	}
 
 	public TipoRegistro getTipoRegistro() {
-		return TipoRegistro.toEnum(tipoRegistro);
+		return tipoRegistro;
 	}
 
 	public void setTipoRegistro(TipoRegistro tipoRegistro) {
-		this.tipoRegistro = tipoRegistro.getCod();
+		this.tipoRegistro = tipoRegistro;
 	}
 
 	public String getDataHora() {
@@ -70,11 +73,11 @@ public abstract class Registro implements Serializable{
 	}
 
 	public FrequenciaStatus getFrequencia() {
-		return FrequenciaStatus.toEnum(frequencia);
+		return frequencia;
 	}
 
 	public void setFrequencia(FrequenciaStatus frequencia) {
-		this.frequencia = frequencia.getCod();
+		this.frequencia = frequencia;
 	}
 
 	public Funcionario getFuncionario() {

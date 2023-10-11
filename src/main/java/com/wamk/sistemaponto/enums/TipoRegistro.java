@@ -1,5 +1,7 @@
 package com.wamk.sistemaponto.enums;
 
+import java.util.stream.Stream;
+
 public enum TipoRegistro {
 
 	ENTRADA(1, "Entrada"),
@@ -34,5 +36,12 @@ public enum TipoRegistro {
 		}
 		
 		throw new IllegalArgumentException("Id inválido: " + cod);
+	}
+	
+	public static TipoRegistro toEnum(String descricao) {
+		return Stream.of(TipoRegistro.values())
+				.filter(tipo -> tipo.getDescricao().equals(descricao))
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
 	}
 }

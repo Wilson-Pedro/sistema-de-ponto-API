@@ -2,8 +2,6 @@ package com.wamk.sistemaponto.dtos;
 
 import java.io.Serializable;
 
-import com.wamk.sistemaponto.enums.FrequenciaStatus;
-import com.wamk.sistemaponto.enums.TipoRegistro;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.model.Registro;
 
@@ -11,9 +9,9 @@ public class RegistroDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private TipoRegistro tipoRegistro;
+	private String tipoRegistro;
 	private String dataHora;
-	private FrequenciaStatus frequencia;
+	private String frequencia;
 	private Funcionario funcionario;
 	
 	public RegistroDTO() {
@@ -21,9 +19,9 @@ public class RegistroDTO implements Serializable{
 	
 	public RegistroDTO(Registro registro) {
 		id = registro.getId();
-		tipoRegistro = registro.getTipoRegistro();
+		tipoRegistro = registro.getTipoRegistro().getDescricao();
 		dataHora = registro.getDataHora();
-		frequencia = registro.getFrequencia();
+		frequencia = registro.getFrequencia().getDescricao();
 		funcionario = registro.getFuncionario();
 	}
 
@@ -35,11 +33,11 @@ public class RegistroDTO implements Serializable{
 		this.id = id;
 	}
 
-	public TipoRegistro getTipoRegistro() {
+	public String getTipoRegistro() {
 		return tipoRegistro;
 	}
 
-	public void setTipoRegistro(TipoRegistro tipoRegistro) {
+	public void setTipoRegistro(String tipoRegistro) {
 		this.tipoRegistro = tipoRegistro;
 	}
 
@@ -51,11 +49,11 @@ public class RegistroDTO implements Serializable{
 		this.dataHora = dataHora;
 	}
 
-	public FrequenciaStatus getFrequencia() {
+	public String getFrequencia() {
 		return frequencia;
 	}
 
-	public void setFrequencia(FrequenciaStatus frequencia) {
+	public void setFrequencia(String frequencia) {
 		this.frequencia = frequencia;
 	}
 
