@@ -4,9 +4,9 @@ import java.util.stream.Stream;
 
 public enum TipoRegistro {
 
-	ENTRADA(1, "Entrada"),
-	SAIDA(2, "Saída"),
-	INDEFINIDO(3, "Indefinido");
+	ENTRADA(0, "Entrada"),
+	SAIDA(1, "Saída"),
+	INDEFINIDO(2, "Indefinido");
 	
 	private int cod;
 	private String descricao;

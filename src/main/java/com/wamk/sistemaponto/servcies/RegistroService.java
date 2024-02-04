@@ -63,7 +63,7 @@ public class RegistroService {
 		Registro registro = criarRegistro(id);
 		registro.setTipoRegistro(TipoRegistro.ENTRADA);
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
-				"13:00:00", TipoRegistro.ENTRADA);
+				"21:00:00", TipoRegistro.ENTRADA);
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
 		RegistroEntrada registroEntrada = new RegistroEntrada(registro);
 		save(registroEntrada);
@@ -74,7 +74,7 @@ public class RegistroService {
 		var registro = criarRegistro(id);
 		var funcionario = funcionarioService.findById(id);
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
-				"17:00:00", TipoRegistro.SAIDA);
+				"22:00:00", TipoRegistro.SAIDA);
 		
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
 		registro.setTipoRegistro(TipoRegistro.SAIDA);
@@ -88,7 +88,7 @@ public class RegistroService {
 	
 	private Integer definirFrequenciaStatus(String dataHora, String horarioPonto, TipoRegistro registro) {
 		String[] horario = dataHora.split("T");
-		Integer status = 5;
+		Integer status = 4;
 		int comparacao = horario[1].compareTo(horarioPonto);
 		if(comparacao <= 0) {
 			status = FrequenciaStatus.PONTO.getCod();

@@ -4,11 +4,11 @@ import java.util.stream.Stream;
 
 public enum FrequenciaStatus {
 	
-	PONTO(1, "Ponto"),
-	ATRASADO(2, "Atrasado"),
-	HORA_EXTRA(3, "Hora extra"),
-	FALTA(4, "Falta"),
-	PROCESSANDO(5, "Processando");
+	PONTO(0, "Ponto"),
+	ATRASADO(1, "Atrasado"),
+	HORA_EXTRA(2, "Hora extra"),
+	FALTA(3, "Falta"),
+	PROCESSANDO(4, "Processando");
 	
 	private Integer cod;
 	private String descricao;

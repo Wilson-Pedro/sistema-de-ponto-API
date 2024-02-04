@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
+import com.wamk.sistemaponto.projections.RegistroMinProjection;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

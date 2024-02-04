@@ -5,6 +5,6 @@ public interface RegistroMinProjection {
 	Long getId();
 	Integer getTipoRegsitro();
 	String getDataHora();
-	Integer getFrequencia();
+	String getFrequencia();
 	String getNome();
 }

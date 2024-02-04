@@ -31,7 +31,7 @@ public class RegistroMinDTO implements Serializable{
 		id = projection.getId();
 		tipoRegistro = projection.getTipoRegsitro();
 		dataHora = projection.getDataHora();
-		frequencia = projection.getFrequencia();
+		frequencia = FrequenciaStatus.toEnum(projection.getFrequencia()).getCod();
 		nomeFuncionario = projection.getNome();
 	}
 
@@ -41,6 +41,10 @@ public class RegistroMinDTO implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setTipoRegistro(Integer tipoRegistro) {
+		this.tipoRegistro = tipoRegistro;
 	}
 
 	public TipoRegistro getTipoRegistro() {
