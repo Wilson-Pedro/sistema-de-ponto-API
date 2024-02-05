@@ -28,9 +28,8 @@ public class FuncionarioService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<FuncionarioDTO> findAll() {
-		List<Funcionario> list = funcionarioRepository.findAll();
-		return list.stream().map(x -> new FuncionarioDTO(x)).toList();
+	public List<Funcionario> findAll() {
+		return funcionarioRepository.findAll();
 	}
 	
 	@Transactional(readOnly = true)
@@ -53,14 +52,12 @@ public class FuncionarioService {
 		return funcionario;
 	}
 
-	public FuncionarioDTO atulizarFuncionario(Long id, FuncionarioInputDTO funcionarioDTO) {
+	public Funcionario atulizarFuncionario(Long id, FuncionarioInputDTO funcionarioDTO) {
 		Funcionario funcionario = findById(id);
 		BeanUtils.copyProperties(funcionarioDTO, funcionario);
 		funcionario.setId(id);
 		save(funcionario);
-		var obj = new FuncionarioDTO();
-		BeanUtils.copyProperties(funcionario, obj);
-		return obj;
+		return funcionario;
 	}
 
 	public void deletarFuncionarioPorId(Long id) {

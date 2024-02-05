@@ -35,32 +35,33 @@ public class RegistroController {
 	private ValidacaoService validacaoService;
 	
 	@GetMapping
-	public ResponseEntity<List<RegistroMinDTO>> findAll(){
-		List<RegistroMinDTO> list = registroService.findAll();
-		return ResponseEntity.ok(list);
+	public ResponseEntity findAll(){
+		List<Registro> list = registroService.findAll();
+		var dtos = list.stream().map(x -> new RegistroMinDTO(x)).toList();
+		return ResponseEntity.ok(dtos);
 	}
 	
 	@GetMapping("/{id}/funcionarios")
-	public ResponseEntity<List<RegistroMinDTO>> findAllById(@PathVariable Long id){
+	public ResponseEntity findAllById(@PathVariable Long id){
 		List<RegistroMinDTO> list = registroService.findAllById(id);
 		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/pages")
-	public ResponseEntity<Page<RegistroDTO>> paginar(Pageable pageable){
+	public ResponseEntity paginar(Pageable pageable){
 		Page<Registro> pages = registroService.findAll(pageable);
 		Page<RegistroDTO> pagesDTO = pages.map(RegistroDTO::new);
 		return ResponseEntity.ok(pagesDTO);
 	}
 	
 	@PostMapping("/{id}/entrada")
-	public ResponseEntity<Registro> registrarEntrada(@PathVariable Long id){
+	public ResponseEntity registrarEntrada(@PathVariable Long id){
 		Registro registro = registroService.registrarEntrada(id);
 		return ResponseEntity.status(HttpStatus.CREATED).body(registro);
 	}
 	
 	@PostMapping("/{id}/saida")
-	public ResponseEntity<Object> registrarSaida(@PathVariable Long id){
+	public ResponseEntity registrarSaida(@PathVariable Long id){
 		Funcionario funcionario = funcionarioService.findById(id);
 		validacaoService.validarSaida(funcionario);
 		Registro registro = registroService.registrarSaida(id);

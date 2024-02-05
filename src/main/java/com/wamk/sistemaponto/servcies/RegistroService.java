@@ -1,5 +1,6 @@
 package com.wamk.sistemaponto.servcies;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,8 +22,6 @@ import com.wamk.sistemaponto.model.RegistroSaida;
 import com.wamk.sistemaponto.projections.RegistroMinProjection;
 import com.wamk.sistemaponto.repositories.RegistroRepository;
 
-
-
 @Service
 public class RegistroService {
 	
@@ -38,14 +37,13 @@ public class RegistroService {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
 	@Transactional
-	public void save(Registro registro) {
-		registroRepository.save(registro);
+	public Registro save(Registro registro) {
+		return registroRepository.save(registro);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<RegistroMinDTO> findAll() {
-		List<Registro> list = registroRepository.findAll();
-		return list.stream().map(x -> new RegistroMinDTO(x)).toList();
+	public List<Registro> findAll() {
+		return registroRepository.findAll();
 	}
 	
 	@Transactional(readOnly = true)
@@ -61,13 +59,11 @@ public class RegistroService {
 
 	public Registro registrarEntrada(Long id) {
 		Registro registro = criarRegistro(id);
-		registro.setTipoRegistro(TipoRegistro.ENTRADA);
+		registro.entrada();
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
 				"21:00:00", TipoRegistro.ENTRADA);
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
-		RegistroEntrada registroEntrada = new RegistroEntrada(registro);
-		save(registroEntrada);
-		return registroEntrada;
+		return save(new RegistroEntrada(registro));
 	}
 
 	public RegistroSaida registrarSaida(Long id) {
@@ -77,8 +73,8 @@ public class RegistroService {
 				"22:00:00", TipoRegistro.SAIDA);
 		
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
-		registro.setTipoRegistro(TipoRegistro.SAIDA);
-		String intervalo = acharIntervalo(registro.getDataHora(), funcionario);
+		registro.saida();
+		String intervalo = acharIntervalo(LocalDateTime.parse(registro.getDataHora()), funcionario);
 		RegistroSaida registroSaida = new RegistroSaida(registro);
 		registroSaida.setIntervalo(intervalo);
 		save(registroSaida);
@@ -101,22 +97,20 @@ public class RegistroService {
 	}
 
 	public Registro criarRegistro(Long id) {
-		Funcionario func = funcionarioService.findById(id);
 		Registro registro = new RegistroEntrada();
-		registro.setFuncionario(func);
+		registro.setFuncionario(funcionarioService.findById(id));
 		registro.setDataHora(OffsetDateTime.now().format(formatter));
-		registro.setTipoRegistro(TipoRegistro.INDEFINIDO);
+		registro.indefinido();
 		return registro;
 	}
 	
-	private String acharIntervalo(String saida, Funcionario funcionario) {
+	private String acharIntervalo(LocalDateTime saida, Funcionario funcionario) {
 		String entrada = "";
 		for(Registro x : funcionario.getRegistros()) {
-			if(TipoRegistro.ENTRADA.equals(x.getTipoRegistro())) {
+			if(TipoRegistro.ENTRADA.equals(x.getTipoRegistro()))
 				entrada = x.getDataHora();
-			}
 		}
-		String intervalo = IntervaloHorarioCalculo.intervalo(entrada, saida);
+		String intervalo = IntervaloHorarioCalculo.intervalo(LocalDateTime.parse(entrada), saida);
 		
 		return intervalo;
 	}

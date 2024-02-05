@@ -2,7 +2,6 @@ package com.wamk.sistemaponto.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,21 +24,21 @@ public class FolhaPagamentoController {
 	private FolhaPagamentoService folhaPagamentoService;
 	
 	@GetMapping
-	public ResponseEntity<List<FolhaPagamentoMinDTO>> findAll(){
-		List<FolhaPagamentoMinDTO> list = folhaPagamentoService.findAll();
-		return ResponseEntity.ok(list);
+	public ResponseEntity findAll(){
+		List<FolhaPagamento> list = folhaPagamentoService.findAll();
+		var dtos = list.stream().map(x -> new FolhaPagamentoMinDTO(x)).toList();
+		return ResponseEntity.ok(dtos);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<FolhaPagamentoDTO> findById(@PathVariable Long id){
+	public ResponseEntity findById(@PathVariable Long id){
 		FolhaPagamento folhaPagamentoOpt = folhaPagamentoService.findById(id);
-		FolhaPagamentoDTO folhaPagamentoDTO = new FolhaPagamentoDTO();
-		BeanUtils.copyProperties(folhaPagamentoOpt, folhaPagamentoDTO);
+		FolhaPagamentoDTO folhaPagamentoDTO = new FolhaPagamentoDTO(folhaPagamentoOpt);
 		return ResponseEntity.ok(folhaPagamentoDTO);
 	}
 	
 	@GetMapping("/pages")
-	public ResponseEntity<Page<FolhaPagamento>> paginar(Pageable pageable){
+	public ResponseEntity paginar(Pageable pageable){
 		Page<FolhaPagamento> pages = folhaPagamentoService.findAll(pageable);
 		return ResponseEntity.ok(pages);
 	}

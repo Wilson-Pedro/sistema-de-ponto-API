@@ -1,7 +1,5 @@
 package com.wamk.sistemaponto.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +20,6 @@ import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
@@ -35,36 +31,37 @@ public class FuncionarioController {
 	private FolhaPagamentoService folhaPagamentoService;
 
 	@GetMapping
-	public ResponseEntity<List<FuncionarioDTO>> getAll(){
-		List<FuncionarioDTO> list = funcionarioService.findAll();
-		return ResponseEntity.ok(list);
+	public ResponseEntity getAll(){
+		var list = funcionarioService.findAll();
+		var dtos = list.stream().map(x -> new FuncionarioDTO(x)).toList();
+		return ResponseEntity.ok(dtos);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Funcionario> findById(@PathVariable Long id){
+	public ResponseEntity findById(@PathVariable Long id){
 		Funcionario funcionarioOpt = funcionarioService.findById(id);
-		return ResponseEntity.ok(funcionarioOpt);
+		return ResponseEntity.ok(new FuncionarioDTO(funcionarioOpt));
 	}
 	
 	@GetMapping("/pages")
-	public ResponseEntity<Page<FuncionarioDTO>> paginar(Pageable pageable){
+	public ResponseEntity paginar(Pageable pageable){
 		Page<Funcionario> pages = funcionarioService.findAll(pageable);
 		Page<FuncionarioDTO> pagesDTO = pages.map(FuncionarioDTO::new);
 		return ResponseEntity.ok(pagesDTO);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody @Valid FuncionarioInputDTO funcionarioDTO){
+	public ResponseEntity cadastrarFuncionario(@RequestBody FuncionarioInputDTO funcionarioDTO){
 		var funcionario = funcionarioService.novoFuncionario(funcionarioDTO);
 		folhaPagamentoService.novaFolhaPagamento(funcionario);
-		return ResponseEntity.status(HttpStatus.CREATED).body(funcionario);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new FuncionarioDTO(funcionario));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<FuncionarioDTO> atualizarFuncionario(@RequestBody @Valid FuncionarioInputDTO funcionarioDTO, 
+	public ResponseEntity atualizarFuncionario(@RequestBody FuncionarioInputDTO funcionarioDTO, 
 			@PathVariable Long id){
-		funcionarioService.atulizarFuncionario(id, funcionarioDTO);
-		return ResponseEntity.noContent().build();
+		var funcionario = funcionarioService.atulizarFuncionario(id, funcionarioDTO);
+		return ResponseEntity.ok(new FuncionarioDTO(funcionario));
 	}
 	
 	@DeleteMapping("/{id}")

@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wamk.sistemaponto.dtos.min.FolhaPagamentoMinDTO;
 import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
 import com.wamk.sistemaponto.model.FolhaPagamento;
 import com.wamk.sistemaponto.model.Funcionario;
@@ -33,9 +32,8 @@ public class FolhaPagamentoService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<FolhaPagamentoMinDTO> findAll() {
-		List<FolhaPagamento> list =  folhaPagamentoRepository.findAll();
-		return list.stream().map(x -> new FolhaPagamentoMinDTO(x)).toList();
+	public List<FolhaPagamento> findAll() {
+		return  folhaPagamentoRepository.findAll();
 	}
 	
 	@Transactional(readOnly = true)
@@ -45,8 +43,7 @@ public class FolhaPagamentoService {
 
 	@Transactional(readOnly = true)
 	public FolhaPagamento findById(Long id) {
-		return folhaPagamentoRepository.findById(id)
-				.orElseThrow(() -> 
+		return folhaPagamentoRepository.findById(id).orElseThrow(() -> 
 				new EntidadeNaoEncontradaException("Folha de Pagamento não encontrada."));
 	}
 

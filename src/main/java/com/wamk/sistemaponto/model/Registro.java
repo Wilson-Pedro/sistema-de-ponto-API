@@ -88,6 +88,18 @@ public abstract class Registro implements Serializable{
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+	
+	public void entrada() {
+		setTipoRegistro(TipoRegistro.ENTRADA);
+	}
+	
+	public void saida() {
+		setTipoRegistro(TipoRegistro.SAIDA);
+	}
+	
+	public void indefinido() {
+		setTipoRegistro(TipoRegistro.INDEFINIDO);
+	}
 
 	@Override
 	public int hashCode() {

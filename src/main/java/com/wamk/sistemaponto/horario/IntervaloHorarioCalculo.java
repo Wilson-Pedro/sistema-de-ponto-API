@@ -6,13 +6,9 @@ import java.time.format.DateTimeFormatter;
 
 public class IntervaloHorarioCalculo {
 
-	public static String intervalo(String registroEntrada, String registroSaida) {
+	public static String intervalo(LocalDateTime registroEntrada, LocalDateTime registroSaida) {
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime dataHora1 = LocalDateTime.parse(registroEntrada, formatter);
-		LocalDateTime dataHora2 = LocalDateTime.parse(registroSaida, formatter);
-		
-		Duration duracao = Duration.between(dataHora1, dataHora2);
+		Duration duracao = Duration.between(registroEntrada, registroSaida);
 		
 		long horas = duracao.toHours();
 		long minutos = duracao.toMinutes() % 60;

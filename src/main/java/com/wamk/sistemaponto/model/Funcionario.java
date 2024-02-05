@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 
@@ -48,6 +49,11 @@ public class Funcionario implements Serializable{
 		this.nome = nome;
 		this.cpf = cpf;
 		this.tipoIdentificacao = tipoIdentificacao;
+	}
+	
+	public Funcionario(FuncionarioInputDTO dto) {
+		nome = dto.getNome();
+		tipoIdentificacao = dto.getTipoIdentificacao();
 	}
 
 	public Long getId() {
