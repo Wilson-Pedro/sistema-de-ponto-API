@@ -2,15 +2,12 @@ package com.wamk.sistemaponto.servcies;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wamk.sistemaponto.dtos.FuncionarioDTO;
-import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
 import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
@@ -23,8 +20,8 @@ public class FuncionarioService {
 	private FuncionarioRepository funcionarioRepository;
 	
 	@Transactional
-	public void save(Funcionario funcionario) {
-		funcionarioRepository.save(funcionario);
+	public Funcionario save(Funcionario funcionario) {
+		return funcionarioRepository.save(funcionario);
 	}
 	
 	@Transactional(readOnly = true)
@@ -44,20 +41,9 @@ public class FuncionarioService {
 				new EntidadeNaoEncontradaException("Funcionario não encontrado."));
 	}
 
-	public Funcionario novoFuncionario(FuncionarioInputDTO funcionarioDTO) {
-		Funcionario funcionario = new Funcionario();
-		BeanUtils.copyProperties(funcionarioDTO, funcionario);
-		funcionario.setId(null);
-		save(funcionario);
-		return funcionario;
-	}
-
-	public Funcionario atulizarFuncionario(Long id, FuncionarioInputDTO funcionarioDTO) {
-		Funcionario funcionario = findById(id);
-		BeanUtils.copyProperties(funcionarioDTO, funcionario);
+	public Funcionario atulizarFuncionario(Long id, Funcionario funcionario) {
 		funcionario.setId(id);
-		save(funcionario);
-		return funcionario;
+		return save(funcionario);
 	}
 
 	public void deletarFuncionarioPorId(Long id) {

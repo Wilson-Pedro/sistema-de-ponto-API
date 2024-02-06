@@ -52,7 +52,7 @@ public class FuncionarioController {
 	
 	@PostMapping
 	public ResponseEntity cadastrarFuncionario(@RequestBody FuncionarioInputDTO funcionarioDTO){
-		var funcionario = funcionarioService.novoFuncionario(funcionarioDTO);
+		var funcionario = funcionarioService.save(new Funcionario(funcionarioDTO));
 		folhaPagamentoService.novaFolhaPagamento(funcionario);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new FuncionarioDTO(funcionario));
 	}
@@ -60,7 +60,7 @@ public class FuncionarioController {
 	@PutMapping("/{id}")
 	public ResponseEntity atualizarFuncionario(@RequestBody FuncionarioInputDTO funcionarioDTO, 
 			@PathVariable Long id){
-		var funcionario = funcionarioService.atulizarFuncionario(id, funcionarioDTO);
+		var funcionario = funcionarioService.atulizarFuncionario(id, new Funcionario(funcionarioDTO));
 		return ResponseEntity.ok(new FuncionarioDTO(funcionario));
 	}
 	

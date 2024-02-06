@@ -51,9 +51,10 @@ public class Funcionario implements Serializable{
 		this.tipoIdentificacao = tipoIdentificacao;
 	}
 	
-	public Funcionario(FuncionarioInputDTO dto) {
-		nome = dto.getNome();
-		tipoIdentificacao = dto.getTipoIdentificacao();
+	public Funcionario(FuncionarioInputDTO inputDto) {
+		nome = inputDto.getNome();
+		cpf = inputDto.getCpf();
+		tipoIdentificacao = inputDto.getTipoIdentificacao();
 	}
 
 	public Long getId() {

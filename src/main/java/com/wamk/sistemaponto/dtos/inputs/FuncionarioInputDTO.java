@@ -14,6 +14,9 @@ public class FuncionarioInputDTO implements Serializable{
 	@NotBlank(message = "nome é obrigatório!")
 	private String nome;
 	
+	@NotBlank(message = "cpf é obrigatório!")
+	private String cpf;
+	
 	@NotNull(message = "tipoIdentificacao não pode ser nulo!")
 	private TipoIdentificacao tipoIdentificacao;
 	
@@ -37,6 +40,14 @@ public class FuncionarioInputDTO implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public TipoIdentificacao getTipoIdentificacao() {
