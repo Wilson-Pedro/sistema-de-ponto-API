@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
+import com.wamk.sistemaponto.exceptions.EntityNotFoundException;
+import com.wamk.sistemaponto.exceptions.ExistingCepException;
 import com.wamk.sistemaponto.exceptions.RegistroSaidaException;
 
 @ControllerAdvice
@@ -44,31 +45,45 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		Problema problema = new Problema();
 		problema.setStatus(HttpStatus.BAD_REQUEST.value());
 		problema.setDataHora(OffsetDateTime.now());
-		problema.setTitulo("Um ou mais campos estão inválidos! Por favor preencha-os corretamente");
+		problema.setTitulo("One or more fileds are invalid! Please fill them correctly.");
 		problema.setCampos(campos);
 		
 		return handleExceptionInternal(ex, problema, headers, status, request);
 	}
 	
-	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public ResponseEntity<Problema> entidadeNaoEncontradaException(){
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<Problema> entityNotFoundException(){
+		var status = HttpStatus.NOT_FOUND;
 		
 		Problema problema = new Problema();
-		problema.setStatus(HttpStatus.NOT_FOUND.value());
+		problema.setStatus(status.value());
 		problema.setDataHora(OffsetDateTime.now());
-		problema.setTitulo("Id não encontrado");
+		problema.setTitulo("Entity not found!");
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problema);
+		return ResponseEntity.status(status).body(problema);
 	}
 	
 	@ExceptionHandler(RegistroSaidaException.class)
 	public ResponseEntity<Problema> registroSaidaException(){
+		var status = HttpStatus.BAD_REQUEST;
 		
 		Problema problema = new Problema();
-		problema.setStatus(HttpStatus.BAD_REQUEST.value());
+		problema.setStatus(status.value());
 		problema.setDataHora(OffsetDateTime.now());
-		problema.setTitulo("É preciso registrar uma ENTRADA antes de registrar uma SAÍDA");
+		problema.setTitulo("is needed register an ENTRANCE before register an EXIT");
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problema);
+		return ResponseEntity.status(status).body(problema);
+	}
+	
+	@ExceptionHandler(ExistingCepException.class)
+	public ResponseEntity<Problema> existingCepException(){
+		var status = HttpStatus.BAD_REQUEST;
+		
+		Problema problema = new Problema();
+		problema.setStatus(status.value());
+		problema.setDataHora(OffsetDateTime.now());
+		problema.setTitulo("Existing Cep!");
+		
+		return ResponseEntity.status(status).body(problema);
 	}
 }

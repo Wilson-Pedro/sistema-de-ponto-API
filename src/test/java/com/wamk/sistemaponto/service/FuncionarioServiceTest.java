@@ -30,6 +30,7 @@ class FuncionarioServiceTest {
 	@Test
 	@Order(1)
 	void mustSaveTheEmployeeSuccessfully() {
+		funcionarioRepository.deleteAll();
 		
 		Funcionario employee = new Funcionario();
 		employee.setNome("Wilson");

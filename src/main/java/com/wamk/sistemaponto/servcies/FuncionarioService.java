@@ -8,7 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
+import com.wamk.sistemaponto.exceptions.EntityNotFoundException;
+import com.wamk.sistemaponto.exceptions.ExistingCepException;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 
@@ -21,6 +22,8 @@ public class FuncionarioService {
 	
 	@Transactional
 	public Funcionario save(Funcionario funcionario) {
+		if (funcionarioRepository.existsByCpf(funcionario.getCpf())) 
+			throw new ExistingCepException();
 		return funcionarioRepository.save(funcionario);
 	}
 	
@@ -36,14 +39,13 @@ public class FuncionarioService {
 
 	@Transactional(readOnly = true)
 	public Funcionario findById(Long id) {
-		return funcionarioRepository.findById(id)
-				.orElseThrow(() -> 
-				new EntidadeNaoEncontradaException("Funcionario não encontrado."));
+		return funcionarioRepository.findById(id).orElseThrow(() -> 
+				new EntityNotFoundException("Funcionario não encontrado."));
 	}
 
 	public Funcionario atulizarFuncionario(Long id, Funcionario funcionario) {
 		funcionario.setId(id);
-		return save(funcionario);
+		return funcionarioRepository.save(funcionario);
 	}
 
 	public void deletarFuncionarioPorId(Long id) {

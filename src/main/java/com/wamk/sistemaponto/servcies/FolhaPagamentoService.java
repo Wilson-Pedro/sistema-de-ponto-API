@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wamk.sistemaponto.exceptions.EntidadeNaoEncontradaException;
+import com.wamk.sistemaponto.exceptions.EntityNotFoundException;
 import com.wamk.sistemaponto.model.FolhaPagamento;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FolhaPagamentoRepository;
@@ -44,7 +44,7 @@ public class FolhaPagamentoService {
 	@Transactional(readOnly = true)
 	public FolhaPagamento findById(Long id) {
 		return folhaPagamentoRepository.findById(id).orElseThrow(() -> 
-				new EntidadeNaoEncontradaException("Folha de Pagamento não encontrada."));
+				new EntityNotFoundException("Folha de Pagamento não encontrada."));
 	}
 
 	public void salvarSalario(String intervalo, Long id) {
