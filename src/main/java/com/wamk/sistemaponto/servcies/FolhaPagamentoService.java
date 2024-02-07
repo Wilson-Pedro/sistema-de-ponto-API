@@ -21,14 +21,14 @@ public class FolhaPagamentoService {
 	private FolhaPagamentoRepository folhaPagamentoRepository;
 	
 	@Transactional
-	private void save(FolhaPagamento folhaPagamento) {
-		folhaPagamentoRepository.save(folhaPagamento);
+	private FolhaPagamento save(FolhaPagamento folhaPagamento) {
+		return folhaPagamentoRepository.save(folhaPagamento);
 	}
 	
 	@Transactional
 	public void novaFolhaPagamento(Funcionario funcionario) {
 		var folhaPagemnto = new FolhaPagamento(null, funcionario, 0, new BigDecimal(0.0));
-		save(folhaPagemnto);
+		folhaPagamentoRepository.save(folhaPagemnto);
 	}
 
 	@Transactional(readOnly = true)
@@ -41,7 +41,6 @@ public class FolhaPagamentoService {
 		return folhaPagamentoRepository.findAll(pageable);
 	}
 
-	@Transactional(readOnly = true)
 	public FolhaPagamento findById(Long id) {
 		return folhaPagamentoRepository.findById(id).orElseThrow(() -> 
 				new EntityNotFoundException("Folha de Pagamento não encontrada."));

@@ -47,7 +47,7 @@ class FuncionarioServiceTest {
 
 	@Test
 	@Order(2)
-	void mustFetchAListOdFuncionariosSuccessfully() {
+	void mustFetchAListOfFuncionariosSuccessfully() {
 		
 		List<Funcionario> list = funcionarioService.findAll();
 		
