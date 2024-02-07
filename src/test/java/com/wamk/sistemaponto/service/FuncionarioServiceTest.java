@@ -29,25 +29,25 @@ class FuncionarioServiceTest {
 
 	@Test
 	@Order(1)
-	void mustSaveTheEmployeeSuccessfully() {
+	void mustSaveTheFuncionarioSuccessfully() {
 		funcionarioRepository.deleteAll();
 		
-		Funcionario employee = new Funcionario();
-		employee.setNome("Wilson");
-		employee.setCpf("160.942.170-12");
-		employee.setTipoIdentificacao(TipoIdentificacao.BIOMETRIA);
-		employee.setRegistros(null);
+		Funcionario funcionario = new Funcionario();
+		funcionario.setNome("Wilson");
+		funcionario.setCpf("160.942.170-12");
+		funcionario.setTipoIdentificacao(TipoIdentificacao.BIOMETRIA);
+		funcionario.setRegistros(null);
 		
 		assertEquals(0, funcionarioRepository.count());
 		
-		funcionarioService.save(employee);
+		funcionarioService.save(funcionario);
 		
 		assertEquals(1, funcionarioRepository.count());
 	}
 
 	@Test
 	@Order(2)
-	void mustFetchAListOdEmployeesSuccessfully() {
+	void mustFetchAListOdFuncionariosSuccessfully() {
 		
 		List<Funcionario> list = funcionarioService.findAll();
 		
@@ -58,35 +58,35 @@ class FuncionarioServiceTest {
 
 	@Test
 	@Order(3)
-	void mustFindTheEmployeeFromTheIdSuccessfully() {
+	void mustFindTheFuncionarioFromTheIdSuccessfully() {
 		
 		Long id = funcionarioService.findAll().get(0).getId();
 		
-		Funcionario employee = funcionarioService.findById(id);
+		Funcionario funcionario = funcionarioService.findById(id);
 		
-		assertNotNull(employee);
-		assertEquals("Wilson", employee.getNome());
-		assertEquals("160.942.170-12", employee.getCpf());
-		assertEquals(TipoIdentificacao.BIOMETRIA, employee.getTipoIdentificacao());
+		assertNotNull(funcionario);
+		assertEquals("Wilson", funcionario.getNome());
+		assertEquals("160.942.170-12", funcionario.getCpf());
+		assertEquals(TipoIdentificacao.BIOMETRIA, funcionario.getTipoIdentificacao());
 	}
 	
 	@Test
 	@Order(4)
-	void mustUpdateTheEmployeeSuccessfully() {
+	void mustUpdateTheFuncionarioSuccessfully() {
 		Long id = funcionarioService.findAll().get(0).getId();
 		
-		Funcionario employee = funcionarioService.findById(id);
-		employee.setNome("Pedro");
+		Funcionario funcionario = funcionarioService.findById(id);
+		funcionario.setNome("Pedro");
 		
-		Funcionario employeeUpdated = funcionarioService.atulizarFuncionario(id, employee);
+		Funcionario funcionarioAtualizado = funcionarioService.atulizarFuncionario(id, funcionario);
 		
-		assertEquals("Pedro", employeeUpdated.getNome());
+		assertEquals("Pedro", funcionarioAtualizado.getNome());
 		assertEquals(1, funcionarioRepository.count());
 	}
 	
 	@Test
 	@Order(5)
-	void mustDeleteTheEmployeeFromTheIdSuccessfully() {
+	void mustDeleteTheFuncionarioFromTheIdSuccessfully() {
 		
 		assertEquals(1, funcionarioRepository.count());
 		

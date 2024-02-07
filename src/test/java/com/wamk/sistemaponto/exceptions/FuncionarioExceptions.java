@@ -11,22 +11,22 @@ import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 
 @SpringBootTest
-class EmployeeExceptions {
+class FuncionarioExceptions {
 	
 	@Autowired
 	FuncionarioService funcionarioService;
 	
 	@Test
-	void ExistingCepExceptionWhenTryingToFindEmployee() {
+	void ExistingCepExceptionWhenTryingToFindFuncionario() {
 		
 		funcionarioService.save(new Funcionario(null, "Wilson", "673.998.460-30", TipoIdentificacao.BIOMETRIA));
-		var employee = new Funcionario(null, "Pedro", "673.998.460-30", TipoIdentificacao.CARTAO);
+		var funcionario = new Funcionario(null, "Pedro", "673.998.460-30", TipoIdentificacao.CARTAO);
 		
-		assertThrows(ExistingCepException.class, () -> funcionarioService.save(employee));
+		assertThrows(ExistingCepException.class, () -> funcionarioService.save(funcionario));
 	}
 
 	@Test
-	void NotFoundExceptionWhenTryingToFindEmployee() {
+	void NotFoundExceptionWhenTryingToFindFuncionario() {
 		
 		assertThrows(EntityNotFoundException.class, () -> funcionarioService.findById(70L));
 	}
