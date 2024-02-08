@@ -26,7 +26,7 @@ class FuncionarioExceptions {
 	}
 
 	@Test
-	void NotFoundExceptionWhenTryingToFindFuncionario() {
+	void EntityNotFoundExceptionWhenTryingToFindFuncionario() {
 		
 		assertThrows(EntityNotFoundException.class, () -> funcionarioService.findById(70L));
 	}

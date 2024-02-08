@@ -21,14 +21,9 @@ public class FolhaPagamentoService {
 	private FolhaPagamentoRepository folhaPagamentoRepository;
 	
 	@Transactional
-	private FolhaPagamento save(FolhaPagamento folhaPagamento) {
-		return folhaPagamentoRepository.save(folhaPagamento);
-	}
-	
-	@Transactional
 	public void novaFolhaPagamento(Funcionario funcionario) {
-		var folhaPagemnto = new FolhaPagamento(null, funcionario, 0, new BigDecimal(0.0));
-		folhaPagamentoRepository.save(folhaPagemnto);
+		var folhaPagamento = new FolhaPagamento(null, funcionario, 0, new BigDecimal(0.0));
+		folhaPagamentoRepository.save(folhaPagamento);
 	}
 
 	@Transactional(readOnly = true)
@@ -52,18 +47,18 @@ public class FolhaPagamentoService {
 		Integer horasTrabalhadas = acharHorasTrabalhadas(intervalo);
 		folhaPagamento.setHorasTrabalhadas(horasTrabalhadas);
 		folhaPagamento.setSalario(salario);
-		save(folhaPagamento);
+		folhaPagamentoRepository.save(folhaPagamento);
 	}
 
-	private Integer acharHorasTrabalhadas(String intervalo) {
+	public Integer acharHorasTrabalhadas(String intervalo) {
 		String[] horario = intervalo.split(":");
-		Integer horasTrabalhadas = Integer.parseInt(horario[2]);
+		Integer horasTrabalhadas = Integer.parseInt(horario[0]);
 		return horasTrabalhadas;
 	}
 
-	private BigDecimal calcularSalario(String intervalo, BigDecimal valorPorHora) {
+	public BigDecimal calcularSalario(String intervalo, BigDecimal valorPorHora) {
 		String[] horario = intervalo.split(":");
-		BigDecimal horasTrabalhadas = new BigDecimal(horario[2]);
+		BigDecimal horasTrabalhadas = new BigDecimal(horario[0]);
 		BigDecimal salario = horasTrabalhadas.multiply(valorPorHora);
 		return salario;
 	}

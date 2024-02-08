@@ -70,10 +70,43 @@ class FolhaPagamentoServiceTest {
 		
 		Long id = folhaPagamentoRepository.findAll().get(0).getId();
 		
-		FolhaPagamento flhPagamento = folhaPagamentoService.findById(id);
+		FolhaPagamento folhPagamento = folhaPagamentoService.findById(id);
 		
-		assertEquals(id, flhPagamento.getId());
-		assertEquals(0, flhPagamento.getHorasTrabalhadas());
-		assertEquals(new BigDecimal("0.00"), flhPagamento.getSalario());
+		assertEquals(id, folhPagamento.getId());
+		assertEquals(0, folhPagamento.getHorasTrabalhadas());
+		assertEquals(new BigDecimal("0.00"), folhPagamento.getSalario());
+	}
+	
+	@Test
+	@Order(4)
+	void mustSaveSalarySuccessfully() {
+		Long id = folhaPagamentoRepository.findAll().get(0).getId();
+		String intervalo = "10:00:00";
+		folhaPagamentoService.salvarSalario(intervalo, id);
+		
+		FolhaPagamento folhPagamento = folhaPagamentoService.findById(id);
+		
+		assertEquals(new BigDecimal("2000.00"), folhPagamento.getSalario());
+	}
+	
+	@Test
+	@Order(5)
+	void mustFindHoursWorkedSuccessfully() {
+		String intervalo = "10:00:00";
+		
+		Integer horas = folhaPagamentoService.acharHorasTrabalhadas(intervalo);
+		
+		assertEquals(10, horas);
+	}
+	
+	@Test
+	@Order(5)
+	void mustcalculeSalarySuccessfully() {
+		String intervalo = "10:00:00";
+		BigDecimal valorPorHora = new BigDecimal("200.0");
+		
+		BigDecimal salario = folhaPagamentoService.calcularSalario(intervalo, valorPorHora);
+		
+		assertEquals(new BigDecimal("2000.0"), salario);
 	}
 }
