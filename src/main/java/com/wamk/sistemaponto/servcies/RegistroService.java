@@ -52,37 +52,36 @@ public class RegistroService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<RegistroMinDTO> findAllById(Long id){
-		List<RegistroMinProjection> list = registroRepository.searchById(id);
-		return list.stream().map(x -> new RegistroMinDTO(x)).toList();
+	public List<RegistroMinProjection> findAllByFuncionarioId(Long id){
+		return registroRepository.searchById(id);
 	}
 
-	public Registro registrarEntrada(Long id) {
-		Registro registro = criarRegistro(id);
+	public RegistroEntrada registrarEntrada(Long funcionarioID) {
+		Registro registro = criarRegistro(funcionarioID);
 		registro.entrada();
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
-				"21:00:00", TipoRegistro.ENTRADA);
+				"14:00:00", TipoRegistro.ENTRADA);
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
-		return save(new RegistroEntrada(registro));
+		return registroRepository.save(new RegistroEntrada(registro));
 	}
 
 	public RegistroSaida registrarSaida(Long id) {
 		var registro = criarRegistro(id);
 		var funcionario = funcionarioService.findById(id);
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
-				"22:00:00", TipoRegistro.SAIDA);
+				"18:00:00", TipoRegistro.SAIDA);
 		
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
 		registro.saida();
 		String intervalo = acharIntervalo(LocalDateTime.parse(registro.getDataHora()), funcionario);
 		RegistroSaida registroSaida = new RegistroSaida(registro);
 		registroSaida.setIntervalo(intervalo);
-		save(registroSaida);
-		folhaPagamentoService.salvarSalario(intervalo, id);
+		registroRepository.save(registroSaida);
+		folhaPagamentoService.salvarSalario(intervalo);
 		return registroSaida;
 	}
 	
-	private Integer definirFrequenciaStatus(String dataHora, String horarioPonto, TipoRegistro registro) {
+	public Integer definirFrequenciaStatus(String dataHora, String horarioPonto, TipoRegistro registro) {
 		String[] horario = dataHora.split("T");
 		Integer status = 4;
 		int comparacao = horario[1].compareTo(horarioPonto);

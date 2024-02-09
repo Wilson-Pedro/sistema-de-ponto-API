@@ -17,6 +17,7 @@ import com.wamk.sistemaponto.dtos.RegistroDTO;
 import com.wamk.sistemaponto.dtos.min.RegistroMinDTO;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.model.Registro;
+import com.wamk.sistemaponto.projections.RegistroMinProjection;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 import com.wamk.sistemaponto.servcies.RegistroService;
 import com.wamk.sistemaponto.servcies.ValidacaoService;
@@ -43,8 +44,9 @@ public class RegistroController {
 	
 	@GetMapping("/{id}/funcionarios")
 	public ResponseEntity findAllById(@PathVariable Long id){
-		List<RegistroMinDTO> list = registroService.findAllById(id);
-		return ResponseEntity.ok(list);
+		List<RegistroMinProjection> list = registroService.findAllByFuncionarioId(id);
+		List<RegistroMinDTO> dtos = list.stream().map(x -> new RegistroMinDTO(x)).toList();
+		return ResponseEntity.ok(dtos);
 	}
 	
 	@GetMapping("/pages")

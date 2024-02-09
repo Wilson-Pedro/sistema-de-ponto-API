@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
-import com.wamk.sistemaponto.projections.RegistroMinProjection;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -99,6 +98,26 @@ public abstract class Registro implements Serializable{
 	
 	public void indefinido() {
 		setTipoRegistro(TipoRegistro.INDEFINIDO);
+	}
+	
+	public void ponto() {
+		setFrequencia(FrequenciaStatus.PONTO);
+	}
+	
+	public void atrasado() {
+		setFrequencia(FrequenciaStatus.ATRASADO);
+	}
+	
+	public void horaExtra() {
+		setFrequencia(FrequenciaStatus.HORA_EXTRA);
+	}
+	
+	public void falta() {
+		setFrequencia(FrequenciaStatus.FALTA);
+	}
+	
+	public void processando() {
+		setFrequencia(FrequenciaStatus.PROCESSANDO);
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
+import com.wamk.sistemaponto.repositories.RegistroRepository;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 
 @SpringBootTest
@@ -26,11 +27,20 @@ class FuncionarioServiceTest {
 	
 	@Autowired
 	FuncionarioService funcionarioService;
-
+	
+	@Autowired
+	RegistroRepository registroRepository;
+	
 	@Test
 	@Order(1)
-	void mustSaveTheFuncionarioSuccessfully() {
+	void deleteAll() {
+		registroRepository.deleteAll();
 		funcionarioRepository.deleteAll();
+	}
+
+	@Test
+	@Order(2)
+	void mustSaveTheFuncionarioSuccessfully() {
 		
 		Funcionario funcionario = new Funcionario();
 		funcionario.setNome("Wilson");
@@ -46,7 +56,7 @@ class FuncionarioServiceTest {
 	}
 
 	@Test
-	@Order(2)
+	@Order(3)
 	void mustFetchAListOfFuncionariosSuccessfully() {
 		
 		List<Funcionario> list = funcionarioService.findAll();
@@ -57,7 +67,7 @@ class FuncionarioServiceTest {
 	}
 
 	@Test
-	@Order(3)
+	@Order(4)
 	void mustFindTheFuncionarioFromTheIdSuccessfully() {
 		
 		Long id = funcionarioService.findAll().get(0).getId();
@@ -71,7 +81,7 @@ class FuncionarioServiceTest {
 	}
 	
 	@Test
-	@Order(4)
+	@Order(5)
 	void mustUpdateTheFuncionarioSuccessfully() {
 		Long id = funcionarioService.findAll().get(0).getId();
 		
@@ -85,7 +95,7 @@ class FuncionarioServiceTest {
 	}
 	
 	@Test
-	@Order(5)
+	@Order(6)
 	void mustDeleteTheFuncionarioFromTheIdSuccessfully() {
 		
 		assertEquals(1, funcionarioRepository.count());

@@ -80,9 +80,10 @@ class FolhaPagamentoServiceTest {
 	@Test
 	@Order(4)
 	void mustSaveSalarySuccessfully() {
-		Long id = folhaPagamentoRepository.findAll().get(0).getId();
 		String intervalo = "10:00:00";
-		folhaPagamentoService.salvarSalario(intervalo, id);
+		folhaPagamentoService.salvarSalario(intervalo);
+		
+		Long id = folhaPagamentoRepository.findAll().get(1).getId();
 		
 		FolhaPagamento folhPagamento = folhaPagamentoService.findById(id);
 		

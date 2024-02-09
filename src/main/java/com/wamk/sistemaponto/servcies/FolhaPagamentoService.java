@@ -41,8 +41,9 @@ public class FolhaPagamentoService {
 				new EntityNotFoundException("Folha de Pagamento não encontrada."));
 	}
 
-	public void salvarSalario(String intervalo, Long id) {
-		var folhaPagamento = findById(id);
+	public void salvarSalario(String intervalo) {
+		//var folhaPagamento = findById(id);
+		var folhaPagamento = new FolhaPagamento();
 		BigDecimal salario = calcularSalario(intervalo, new BigDecimal(200.0));
 		Integer horasTrabalhadas = acharHorasTrabalhadas(intervalo);
 		folhaPagamento.setHorasTrabalhadas(horasTrabalhadas);
