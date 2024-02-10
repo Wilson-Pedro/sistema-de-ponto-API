@@ -20,7 +20,6 @@ import com.wamk.sistemaponto.model.Registro;
 import com.wamk.sistemaponto.projections.RegistroMinProjection;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
 import com.wamk.sistemaponto.servcies.RegistroService;
-import com.wamk.sistemaponto.servcies.ValidacaoService;
 
 @RestController
 @RequestMapping("/registros")
@@ -31,9 +30,6 @@ public class RegistroController {
 	
 	@Autowired
 	private FuncionarioService funcionarioService;
-
-	@Autowired
-	private ValidacaoService validacaoService;
 	
 	@GetMapping
 	public ResponseEntity findAll(){
@@ -65,7 +61,6 @@ public class RegistroController {
 	@PostMapping("/{id}/saida")
 	public ResponseEntity registrarSaida(@PathVariable Long id){
 		Funcionario funcionario = funcionarioService.findById(id);
-		validacaoService.validarSaida(funcionario);
 		Registro registro = registroService.registrarSaida(id);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(registro);

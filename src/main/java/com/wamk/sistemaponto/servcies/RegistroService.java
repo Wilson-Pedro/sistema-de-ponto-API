@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wamk.sistemaponto.dtos.min.RegistroMinDTO;
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
 import com.wamk.sistemaponto.horario.IntervaloHorarioCalculo;
@@ -33,6 +32,9 @@ public class RegistroService {
 	
 	@Autowired
 	private FuncionarioService funcionarioService;
+	
+	@Autowired
+	private ValidacaoService validacaoService;
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
@@ -68,6 +70,7 @@ public class RegistroService {
 	public RegistroSaida registrarSaida(Long id) {
 		var registro = criarRegistro(id);
 		var funcionario = funcionarioService.findById(id);
+		validacaoService.validarSaida(funcionario);
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
 				"18:00:00", TipoRegistro.SAIDA);
 		
