@@ -1,9 +1,11 @@
 package com.wamk.sistemaponto.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
@@ -97,14 +99,11 @@ public class Funcionario implements Serializable{
 		this.registros = registros;
 	}
 
-	public int validarSaida() {
-		int sum = 0;
-		for(Registro x : registros) {
-			if(x.getTipoRegistro().equals(TipoRegistro.ENTRADA)) {
-				sum += 1;
-			}
-		}
-		return sum;
+	public long validarSaida() {
+		return registros.stream()
+				.filter(registro -> registro.getTipoRegistro().equals(TipoRegistro.ENTRADA))
+				.collect(Collectors.toList()).size();
+
 	}
 
 	@Override

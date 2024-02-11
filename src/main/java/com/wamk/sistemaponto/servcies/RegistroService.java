@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wamk.sistemaponto.enums.FrequenciaStatus;
 import com.wamk.sistemaponto.enums.TipoRegistro;
+import com.wamk.sistemaponto.exceptions.RegistroSaidaException;
 import com.wamk.sistemaponto.horario.IntervaloHorarioCalculo;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.model.Registro;
@@ -32,9 +34,6 @@ public class RegistroService {
 	
 	@Autowired
 	private FuncionarioService funcionarioService;
-	
-	@Autowired
-	private ValidacaoService validacaoService;
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	
@@ -70,17 +69,23 @@ public class RegistroService {
 	public RegistroSaida registrarSaida(Long id) {
 		var registro = criarRegistro(id);
 		var funcionario = funcionarioService.findById(id);
-		validacaoService.validarSaida(funcionario);
+		
+		validarSaida(funcionario);
+		
 		Integer status = definirFrequenciaStatus(registro.getDataHora(), 
 				"18:00:00", TipoRegistro.SAIDA);
 		
 		registro.setFrequencia(FrequenciaStatus.toEnum(status));
 		registro.saida();
+		
 		String intervalo = acharIntervalo(LocalDateTime.parse(registro.getDataHora()), funcionario);
 		RegistroSaida registroSaida = new RegistroSaida(registro);
+		
 		registroSaida.setIntervalo(intervalo);
+		
 		registroRepository.save(registroSaida);
 		folhaPagamentoService.salvarSalario(intervalo);
+		
 		return registroSaida;
 	}
 	
@@ -107,13 +112,22 @@ public class RegistroService {
 	}
 	
 	private String acharIntervalo(LocalDateTime saida, Funcionario funcionario) {
+//		String entrada = registros.stream()
+//				.filter(registro -> registro.getTipoRegistro().equals(TipoRegistro.ENTRADA))
+//				.map(retorno -> retorno.getDataHora())
+//				.collect(Collectors.toList()).get(registros.size()).toString();
+		
 		String entrada = "";
 		for(Registro x : funcionario.getRegistros()) {
 			if(TipoRegistro.ENTRADA.equals(x.getTipoRegistro()))
 				entrada = x.getDataHora();
 		}
-		String intervalo = IntervaloHorarioCalculo.intervalo(LocalDateTime.parse(entrada), saida);
-		
-		return intervalo;
+		return IntervaloHorarioCalculo.intervalo(LocalDateTime.parse(entrada), saida);
+	}
+	
+	public void validarSaida(Funcionario funcionario) {
+		if (funcionario.validarSaida() == 0) 
+			throw new RegistroSaidaException(
+					"É preciso registrar uma ENTRADA antes de registrar uma SAÍDA");
 	}
 }

@@ -18,7 +18,7 @@ import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 public class FuncionarioService {
 
 	@Autowired
-	private FuncionarioRepository funcionarioRepository;
+	FuncionarioRepository funcionarioRepository;
 	
 	@Transactional
 	public Funcionario save(Funcionario funcionario) {
