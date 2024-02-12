@@ -22,12 +22,13 @@ public class FuncionarioInputDTO implements Serializable{
 	
 	public FuncionarioInputDTO() {
 	}
-
-	public FuncionarioInputDTO(String nome, TipoIdentificacao tipoIdentificacao) {
-		this.nome = nome;
-		this.tipoIdentificacao = (tipoIdentificacao == null) ? null : tipoIdentificacao;
-	}
 	
+	public FuncionarioInputDTO(String nome, String cpf, TipoIdentificacao tipoIdentificacao) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.tipoIdentificacao = tipoIdentificacao;
+	}
+
 	public FuncionarioInputDTO(Funcionario funcionario) {
 		nome = funcionario.getNome();
 		tipoIdentificacao = funcionario.getTipoIdentificacao();
