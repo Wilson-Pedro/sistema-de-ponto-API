@@ -101,7 +101,7 @@ class FolhaPagamentoServiceTest {
 	}
 	
 	@Test
-	@Order(5)
+	@Order(6)
 	void mustcalculeSalarySuccessfully() {
 		String intervalo = "10:00:00";
 		BigDecimal valorPorHora = new BigDecimal("200.0");

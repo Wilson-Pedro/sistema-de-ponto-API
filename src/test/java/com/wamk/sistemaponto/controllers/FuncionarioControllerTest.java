@@ -83,9 +83,18 @@ class FuncionarioControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 	}
-
+	
 	@Test
 	@Order(4)
+	void mustPageAListOfFuncionariosSuccessfully() throws Exception {
+		
+		mockMvc.perform(get(ENDPOINT + "/pages"))
+				.andExpect(status().isOk())
+				.andReturn();
+	}
+
+	@Test
+	@Order(5)
 	void mustFindTheFuncionarioFromTheIdSuccessfully() throws Exception {
 		
 		Long id = funcionarioService.findAll().get(0).getId();
@@ -98,7 +107,7 @@ class FuncionarioControllerTest {
 	}
 
 	@Test
-	@Order(5)
+	@Order(6)
 	void mustUpdateTheFuncionarioSuccessfully() throws Exception {
 
 		String jsonRequest = objectMapper.writeValueAsString(
@@ -117,7 +126,7 @@ class FuncionarioControllerTest {
 	}
 	
 	@Test
-	@Order(6)
+	@Order(7)
 	void mustDeleteTheFuncionarioFromTheIdSuccessfully() throws Exception {
 		
 		assertEquals(1, funcionarioRepository.count());
