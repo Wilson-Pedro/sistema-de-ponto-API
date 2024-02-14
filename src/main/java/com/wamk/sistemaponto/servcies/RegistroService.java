@@ -66,6 +66,7 @@ public class RegistroService {
 		return registroRepository.save(new RegistroEntrada(registro));
 	}
 
+	@Transactional
 	public RegistroSaida registrarSaida(Long id) {
 		var registro = criarRegistro(id);
 		var funcionario = funcionarioService.findById(id);

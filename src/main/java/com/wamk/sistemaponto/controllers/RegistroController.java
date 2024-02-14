@@ -28,9 +28,6 @@ public class RegistroController {
 	@Autowired
 	private RegistroService registroService;
 	
-	@Autowired
-	private FuncionarioService funcionarioService;
-	
 	@GetMapping
 	public ResponseEntity findAll(){
 		List<Registro> list = registroService.findAll();
@@ -60,7 +57,6 @@ public class RegistroController {
 	
 	@PostMapping("/{id}/saida")
 	public ResponseEntity registrarSaida(@PathVariable Long id){
-		Funcionario funcionario = funcionarioService.findById(id);
 		Registro registro = registroService.registrarSaida(id);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(registro);
