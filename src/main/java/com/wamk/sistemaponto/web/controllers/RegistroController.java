@@ -1,4 +1,4 @@
-package com.wamk.sistemaponto.controllers;
+package com.wamk.sistemaponto.web.controllers;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wamk.sistemaponto.dtos.RegistroDTO;
@@ -17,16 +16,16 @@ import com.wamk.sistemaponto.dtos.min.RegistroMinDTO;
 import com.wamk.sistemaponto.model.Registro;
 import com.wamk.sistemaponto.projections.RegistroMinProjection;
 import com.wamk.sistemaponto.servcies.RegistroService;
+import com.wamk.sistemaponto.web.api.RegistroAPI;
 
 @RestController
-@RequestMapping("/registros")
-public class RegistroController {
+public class RegistroController implements RegistroAPI {
 
 	@Autowired
 	private RegistroService registroService;
 	
 	@GetMapping
-	public ResponseEntity<List<RegistroMinDTO>> findAll(){
+	public ResponseEntity<List<RegistroMinDTO>> findAll() {
 		List<Registro> list = registroService.findAll();
 		var dtos = list.stream().map(x -> new RegistroMinDTO(x)).toList();
 		return ResponseEntity.ok(dtos);
@@ -40,20 +39,20 @@ public class RegistroController {
 	}
 	
 	@GetMapping("/pages")
-	public ResponseEntity<Page<RegistroDTO>> paginar(Pageable pageable){
+	public ResponseEntity<Page<RegistroDTO>> paginar(Pageable pageable) {
 		Page<Registro> pages = registroService.findAll(pageable);
 		Page<RegistroDTO> pagesDTO = pages.map(RegistroDTO::new);
 		return ResponseEntity.ok(pagesDTO);
 	}
 	
 	@PostMapping("/{id}/entrada")
-	public ResponseEntity<Registro> registrarEntrada(@PathVariable Long id){
+	public ResponseEntity<Registro> registrarEntrada(@PathVariable Long id) {
 		Registro registro = registroService.registrarEntrada(id);
 		return ResponseEntity.status(201).body(registro);
 	}
 	
 	@PostMapping("/{id}/saida")
-	public ResponseEntity<Registro> registrarSaida(@PathVariable Long id){
+	public ResponseEntity<Registro> registrarSaida(@PathVariable Long id) {
 		Registro registro = registroService.registrarSaida(id);
 		
 		return ResponseEntity.status(201).body(registro);

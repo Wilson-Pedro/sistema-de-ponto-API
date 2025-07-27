@@ -1,4 +1,4 @@
-package com.wamk.sistemaponto.controllers;
+package com.wamk.sistemaponto.web.controllers;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wamk.sistemaponto.dtos.FuncionarioDTO;
@@ -20,10 +19,10 @@ import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
 import com.wamk.sistemaponto.servcies.FuncionarioService;
+import com.wamk.sistemaponto.web.api.FuncionarioAPI;
 
 @RestController
-@RequestMapping("/funcionarios")
-public class FuncionarioController {
+public class FuncionarioController implements FuncionarioAPI{
 	
 	@Autowired
 	private FuncionarioService funcionarioService;
