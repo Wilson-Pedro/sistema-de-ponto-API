@@ -11,6 +11,7 @@ facilitando o controle de presença, a gestão de folha de pagamento e o monitor
 
 ## Banco de dados
 -H2 
+-PostgresSQL
 
 Para rodar o projeto localmente faça o download das seguintes ferramentas:
 
