@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
+import com.wamk.sistemaponto.servcies.impl.FolhaPagamentoServiceImpl;
 
 @SpringBootTest
 class FolhaPagamentoExceptions {
 	
 	@Autowired
-	FolhaPagamentoService folhaPagamentoService;
+	FolhaPagamentoServiceImpl folhaPagamentoService;
 
 	@Test
 	void EntityNotFoundExceptionWhenTryingToFindFolhaPagamento() {

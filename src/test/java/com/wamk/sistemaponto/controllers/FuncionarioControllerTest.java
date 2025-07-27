@@ -24,7 +24,7 @@ import com.wamk.sistemaponto.dtos.inputs.FuncionarioInputDTO;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
 import com.wamk.sistemaponto.repositories.RegistroRepository;
-import com.wamk.sistemaponto.servcies.FuncionarioService;
+import com.wamk.sistemaponto.servcies.impl.FuncionarioServiceImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,7 +37,7 @@ class FuncionarioControllerTest {
 	FuncionarioRepository funcionarioRepository;
 	
 	@Autowired
-	FuncionarioService funcionarioService;
+	FuncionarioServiceImpl funcionarioService;
 	
 	@Autowired
 	RegistroRepository registroRepository;

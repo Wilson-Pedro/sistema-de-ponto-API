@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.model.Funcionario;
-import com.wamk.sistemaponto.servcies.FuncionarioService;
+import com.wamk.sistemaponto.servcies.impl.FuncionarioServiceImpl;
 
 @SpringBootTest
 class FuncionarioExceptions {
 	
 	@Autowired
-	FuncionarioService funcionarioService;
+	FuncionarioServiceImpl funcionarioService;
 	
 	@Test
 	void ExistingCepExceptionWhenTryingToFindFuncionario() {

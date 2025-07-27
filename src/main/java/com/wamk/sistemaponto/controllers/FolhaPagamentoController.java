@@ -24,21 +24,20 @@ public class FolhaPagamentoController {
 	private FolhaPagamentoService folhaPagamentoService;
 	
 	@GetMapping
-	public ResponseEntity findAll(){
+	public ResponseEntity<List<FolhaPagamentoMinDTO>> findAll(){
 		List<FolhaPagamento> list = folhaPagamentoService.findAll();
 		var dtos = list.stream().map(x -> new FolhaPagamentoMinDTO(x)).toList();
 		return ResponseEntity.ok(dtos);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity findById(@PathVariable Long id){
+	public ResponseEntity<FolhaPagamentoDTO> findById(@PathVariable Long id){
 		FolhaPagamento folhaPagamentoOpt = folhaPagamentoService.findById(id);
-		FolhaPagamentoDTO folhaPagamentoDTO = new FolhaPagamentoDTO(folhaPagamentoOpt);
-		return ResponseEntity.ok(folhaPagamentoDTO);
+		return ResponseEntity.ok(new FolhaPagamentoDTO(folhaPagamentoOpt));
 	}
 	
 	@GetMapping("/pages")
-	public ResponseEntity paginar(Pageable pageable){
+	public ResponseEntity<Page<FolhaPagamento>> paginar(Pageable pageable){
 		Page<FolhaPagamento> pages = folhaPagamentoService.findAll(pageable);
 		return ResponseEntity.ok(pages);
 	}

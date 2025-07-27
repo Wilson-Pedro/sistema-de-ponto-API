@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.model.Funcionario;
-import com.wamk.sistemaponto.servcies.FuncionarioService;
-import com.wamk.sistemaponto.servcies.RegistroService;
+import com.wamk.sistemaponto.servcies.impl.FuncionarioServiceImpl;
+import com.wamk.sistemaponto.servcies.impl.RegistroServiceImpl;
 
 import jakarta.transaction.Transactional;
 
@@ -31,10 +31,10 @@ class RegistroControllerTest {
 	private static String ENDPOINT = "/registros";
 	
 	@Autowired
-	RegistroService registroService;
+	RegistroServiceImpl registroService;
 	
 	@Autowired
-	FuncionarioService funcionarioService;
+	FuncionarioServiceImpl funcionarioService;
 	
 	@Autowired
 	ObjectMapper objectMapper;

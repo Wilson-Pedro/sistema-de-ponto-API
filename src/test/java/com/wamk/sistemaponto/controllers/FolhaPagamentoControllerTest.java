@@ -22,7 +22,7 @@ import com.wamk.sistemaponto.model.FolhaPagamento;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FolhaPagamentoRepository;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
-import com.wamk.sistemaponto.servcies.FolhaPagamentoService;
+import com.wamk.sistemaponto.servcies.impl.FolhaPagamentoServiceImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,7 +35,7 @@ class FolhaPagamentoControllerTest {
 	FolhaPagamentoRepository folhaPagamentoRepository;
 	
 	@Autowired
-	FolhaPagamentoService folhaPagamentoService;
+	FolhaPagamentoServiceImpl folhaPagamentoService;
 	
 	@Autowired
 	FuncionarioRepository funcionarioRepository;

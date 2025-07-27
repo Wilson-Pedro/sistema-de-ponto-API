@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.wamk.sistemaponto.enums.TipoIdentificacao;
 import com.wamk.sistemaponto.model.Funcionario;
 import com.wamk.sistemaponto.repositories.FuncionarioRepository;
-import com.wamk.sistemaponto.servcies.RegistroService;
+import com.wamk.sistemaponto.servcies.impl.RegistroServiceImpl;
 
 import jakarta.transaction.Transactional;
 
@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 class RegistroExceptionTest {
 	
 	@Autowired
-	RegistroService registroService;
+	RegistroServiceImpl registroService;
 	
 	@Autowired
 	FuncionarioRepository funcionarioRepository;
