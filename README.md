@@ -15,25 +15,17 @@ facilitando o controle de presença, a gestão de folha de pagamento e o monitor
 
 Para rodar o projeto localmente faça o download das seguintes ferramentas:
 
-- [STS](https://spring.io.xy2401.com/tools3/sts/all/)
+- [IntelliJ](https://www.jetbrains.com/pt-br/idea/)
 - [Postman](https://www.postman.com/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-Depois de ter instalado as ferramentas, crie uma pasta e dê um nome a ela. Então abra o seu git bash nessa pasta. e digite o seguinte comando:
-
-![ABRIR-GIT-BASH](https://github.com/Wilson-Pedro/images/blob/main/git-bash/abrir-git-bash.png)
+Abra o git bash e digite o seguinte comando:
 
 ```bash
 git clone git@github.com:Wilson-Pedro/sistema-de-ponto-API.git
 ```
 
-Após isso abra o projeto no STS ou qualquer IDE que suporte o SPRING.
-
--> Com o STS vá em 'sistema-de-ponto-API.java' e clique com o potão direito.
-
--> Vá em 'Run As'.
-
--> E clique em 'Spring Boot App'
+Após isso importe o projeto na sua IDE e rode o projeto
 
 # Abra o [Postman](https://www.postman.com/downloads/) e teste o seguintes endpoints:
 # POST
